@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  contact-tracing-db:
+    container_name: contact-tracing-db
+    image: postgres:10.4-alpine
+    environment:
+      - POSTGRES_USER=contact_tracing
+      - POSTGRES_PASSWORD=contact_tracing
+      - POSTGRES_DB=contact_tracing
+    ports:
+      - 5432:5432
+    volumes:
+      - contact-tracing-pg-data:/var/lib/postgresql/data
+      
+volumes:
+  contact-tracing-pg-data:
+    external: false

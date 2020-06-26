@@ -1,0 +1,73 @@
+{
+  "name": "contact-tracing-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API service for contact tracing",
+  "main": "index.js",
+  "scripts": {
+    "create:env": "node -r fs -e \"fs.copyFileSync('.env.sample', '.env', fs.constants.COPYFILE_EXCL)\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:staged": "lint-staged",
+    "start": "node .",
+    "start:dev": "nodemon --config .nodemonrc . | pino-pretty --colorize",
+    "test": "jest --config .jest.json --coverage",
+    "test:watch": "jest --config .jest.json --watch --verbose",
+    "db:migrate": "node lib/migrate.js",
+    "db:up": "docker-compose up -d",
+    "db:down": "docker-compose down",
+    "db:delete": "docker-compose down -v"
+  },
+  "dependencies": {
+    "@nearform/sql": "^1.4.0",
+    "aws-sdk": "^2.646.0",
+    "date-fns": "^2.11.1",
+    "dotenv": "^6.2.0",
+    "env-schema": "^1.0.0",
+    "fastify": "^2.11.0",
+    "fastify-autoload": "^1.2.0",
+    "fastify-cors": "^3.0.1",
+    "fastify-formbody": "^3.1.0",
+    "fastify-jwt": "^1.3.1",
+    "fastify-plugin": "^1.6.0",
+    "fastify-postgres": "^2.0.0",
+    "fastify-swagger": "^2.5.1",
+    "fluent-schema": "^0.10.0",
+    "http-errors": "^1.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.0",
+    "node-jose": "^1.1.4",
+    "nodemon": "^2.0.1",
+    "pg": "^7.18.2",
+    "pg-range": "^1.1.0",
+    "postgrator": "^3.11.0",
+    "under-pressure": "^3.1.0",
+    "uuid": "^8.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-prettier-standard": "^3.0.1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.2.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "faker": "^4.1.0",
+    "jest": "^24.0.0",
+    "lint-staged": "^8.1.4",
+    "pino-pretty": "^3.5.0",
+    "prettier": "^1.19.1",
+    "prettier-config-standard": "^1.0.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": "prettier-config-standard"
+}

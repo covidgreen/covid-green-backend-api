@@ -1,0 +1,11 @@
+{
+  "extends": ["prettier-standard"],
+  "plugins": ["jest"],
+  "env": {
+    "es6": true,
+    "jest/globals": true
+  },
+  "rules": {
+    "strict": ["error", "safe"]
+  }
+}

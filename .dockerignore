@@ -1,0 +1,12 @@
+.env
+.env.sample
+
+# test code
+**/*.test.*
+**/mocks
+
+# dependencies 
+node_modules/**
+
+# generated content
+coverage/**

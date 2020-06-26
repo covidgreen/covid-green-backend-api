@@ -1,0 +1,1034 @@
+{
+	"info": {
+		"_postman_id": "d8828e04-1417-4ac5-8b0d-fadde7649f49",
+		"name": "Contact Tracing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"item": [
+				{
+					"name": "Register account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5edd8aaf-b3e2-4e2c-ac46-0321a94c6991",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'nonce'",
+									"  ],",
+									"  properties: {",
+									"    nonce: {",
+									"      type: 'string'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('nonce', json.nonce)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/register",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9d63cc5-8e75-4fbe-b9d3-439d79044100",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'refreshToken',",
+									"    'token'",
+									"  ],",
+									"  properties: {",
+									"    refreshToken: {",
+									"      type: 'string'",
+									"    },",
+									"    token: {",
+									"      type: 'string'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('refreshToken', json.refreshToken)",
+									"pm.environment.set('token', json.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nonce",
+									"value": "{{nonce}}",
+									"type": "text"
+								},
+								{
+									"key": "platform",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "deviceVerificationPayload",
+									"value": "{{registerToken}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/register",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1c43c0c6-860b-446a-8961-c59c04820936",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a8b9f60-317f-43bc-a853-cef0a36b7f9f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50aca5d7-be6e-4150-ba50-1321adffd795",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'token'",
+									"  ],",
+									"  properties: {",
+									"    token: {",
+									"      type: 'string'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('token', json.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/refresh",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Data",
+			"item": [
+				{
+					"name": "Get settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ea98cd6-4c42-4d00-a65a-3aaf34c9f97d",
+								"exec": [
+									"const schema = {",
+									"    type: 'object',",
+									"    additionalProperties: true,",
+									"    required: [",
+									"        'generatedAt'",
+									"    ],",
+									"    properties: {",
+									"        generatedAt: {",
+									"            type: 'string',",
+									"            format: 'date-time'",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/settings",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8503a00b-1bc6-438e-8a7a-4df1d7e7e37b",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'generatedAt',",
+									"    'checkIns',",
+									"    'installs',",
+									"    'statistics',",
+									"    'chart',",
+									"    'counties',",
+									"    'currentCases',",
+									"    'hospitalised',",
+									"    'requiredICU'",
+									"  ],",
+									"  properties: {",
+									"    generatedAt: {",
+									"      type: 'string',",
+									"      format: 'date-time'",
+									"    },",
+									"    checkIns: {",
+									"      type: 'object',",
+									"      additionalProperties: false,",
+									"      required: [",
+									"        'total',",
+									"        'ok'",
+									"      ],",
+									"      properties: {",
+									"        total: {",
+									"          type: 'integer'",
+									"        },",
+									"        ok: {",
+									"          type: 'integer'",
+									"        }",
+									"      }",
+									"    },",
+									"    installs: {",
+									"      type: 'array',",
+									"      additionalItems: false,",
+									"      items: {",
+									"        type: 'array',",
+									"        additionalItems: false,",
+									"        items: {",
+									"          type: [",
+									"            'integer',",
+									"            'string'",
+									"          ]",
+									"        }",
+									"      }",
+									"    },",
+									"    statistics: {",
+									"      type: 'object',",
+									"      additionalProperties: false,",
+									"      required: [",
+									"        'confirmed',",
+									"        'deaths',",
+									"        'recovered',",
+									"        'hospitalised',",
+									"        'requiredICU',",
+									"        'transmission',",
+									"        'lastUpdated'",
+									"      ],",
+									"      properties: {",
+									"        confirmed: {",
+									"          type: 'integer'",
+									"        },",
+									"        deaths: {",
+									"          type: 'integer'",
+									"        },",
+									"        recovered: {",
+									"          type: 'integer'",
+									"        },",
+									"        hospitalised: {",
+									"          type: 'integer'",
+									"        },",
+									"        requiredICU: {",
+									"          type: 'integer'",
+									"        },",
+									"        transmission: {",
+									"          type: 'object',",
+									"          additionalProperties: false,",
+									"          required: [",
+									"            'community',",
+									"            'closeContact',",
+									"            'travelAbroad'",
+									"          ],",
+									"          properties: {",
+									"            community: {",
+									"              type: 'integer'",
+									"            },",
+									"            closeContact: {",
+									"              type: 'integer'",
+									"            },",
+									"            travelAbroad: {",
+									"              type: 'integer'",
+									"            }",
+									"          }",
+									"        },",
+									"        lastUpdated: {",
+									"          type: 'object',",
+									"          additionalProperties: false,",
+									"          required: [",
+									"            'stats',",
+									"            'profile'",
+									"          ],",
+									"          properties: {",
+									"            stats: {",
+									"              type: 'string',",
+									"              format: 'date-time'",
+									"            },",
+									"            profile: {",
+									"              type: 'string',",
+									"              format: 'date-time'",
+									"            }",
+									"          }",
+									"        }",
+									"      }",
+									"    },",
+									"    chart: {",
+									"      type: 'array',",
+									"      additionalItems: false,",
+									"      items: {",
+									"        type: 'array',",
+									"        additionalItems: false,",
+									"        items: {",
+									"          type: [",
+									"            'integer',",
+									"            'string'",
+									"          ]",
+									"        }",
+									"      }",
+									"    },",
+									"    counties: {",
+									"      type: 'array',",
+									"      additionalItems: false,",
+									"      items: {",
+									"        type: 'object',",
+									"        additionalProperties: false,",
+									"        required: [",
+									"          'county',",
+									"          'cases'",
+									"        ],",
+									"        properties: {",
+									"          county: {",
+									"            type: 'string'",
+									"          },",
+									"          cases: {",
+									"            type: 'integer'",
+									"          }",
+									"        }",
+									"      }",
+									"    },",
+									"    currentCases: {",
+									"      type: 'array',",
+									"      additionalItems: false,",
+									"      items: {",
+									"        type: 'array',",
+									"        additionalItems: false,",
+									"        items: {",
+									"          type: [",
+									"            'integer',",
+									"            'string',",
+									"            'null'",
+									"          ]",
+									"        }",
+									"      }",
+									"    },",
+									"    hospitalised: {",
+									"      type: 'array',",
+									"      additionalItems: false,",
+									"      items: {",
+									"        type: 'array',",
+									"        additionalItems: false,",
+									"        items: {",
+									"          type: [",
+									"            'integer',",
+									"            'string',",
+									"            'null'",
+									"          ]",
+									"        }",
+									"      }",
+									"    },",
+									"    requiredICU: {",
+									"      type: 'array',",
+									"      additionalItems: false,",
+									"      items: {",
+									"        type: 'array',",
+									"        additionalItems: false,",
+									"        items: {",
+									"          type: [",
+									"            'integer',",
+									"            'string',",
+									"            'null'",
+									"          ]",
+									"        }",
+									"      }",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/stats",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Check-in",
+			"item": [
+				{
+					"name": "Check-in",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f068035a-dbb7-42e6-b335-4a590d6a41bd",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "177539e5-8e2f-42bb-a95f-12f42d307b55",
+								"exec": [
+									"pm.test('Status code is 204', () => {",
+									"    pm.response.to.have.status(204)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ageRange\": \"21-30\",\n  \"locality\": \"Dublin\",\n  \"sex\": \"m\",\n  \"ok\": true,\n  \"data\": [\n    {\n      \"status\": \"u\",\n      \"date\": \"20/04/2020\",\n      \"fever\": 0,\n      \"cough\": 1,\n      \"breath\": 0,\n      \"flu\": 0\n    },\n    {\n      \"status\": \"u\",\n      \"date\": \"19/04/2020\",\n      \"fever\": 0,\n      \"cough\": 1,\n      \"breath\": 0,\n      \"flu\": 0\n    },\n    {\n      \"status\": \"u\",\n      \"date\": \"18/04/2020\",\n      \"fever\": 0,\n      \"cough\": 1,\n      \"breath\": 0,\n      \"flu\": 0\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/check-in",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"check-in"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Notify",
+			"item": [
+				{
+					"name": "Notify positive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "22aaaab0-6978-473b-a343-5dec6d8cd434",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'code'",
+									"  ],",
+									"  properties: {",
+									"    code: {",
+									"      type: 'integer'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"const control = CryptoJS.SHA512(json.code.toString().substr(0, 3)).toString(CryptoJS.enc.Hex)",
+									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
+									"",
+									"pm.environment.set('uploadHash', `${control}${code}`)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pushToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "mobile",
+									"value": "{{mobile}}",
+									"type": "text"
+								},
+								{
+									"key": "onsetDate",
+									"value": "2020-05-01",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{push}}/notify/positive",
+							"host": [
+								"{{push}}"
+							],
+							"path": [
+								"notify",
+								"positive"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Exposures",
+			"item": [
+				{
+					"name": "Verify hash",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "163cacd3-5702-4b1d-8063-1792dc79d76b",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'token'",
+									"  ],",
+									"  properties: {",
+									"    token: {",
+									"      type: 'string',",
+									"      format: 'uuid'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('uploadToken', json.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"hash\": \"{{uploadHash}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/exposures/verify",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exposures",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload exposures",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "494d3072-bb45-421f-a0f5-35aae24959b0",
+								"exec": [
+									"pm.test('Status code is 204', () => {",
+									"    pm.response.to.have.status(204)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"token\": \"{{uploadToken}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"exposures\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2648592,\n\t\t\t\"keyData\": \"wTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2648736,\n\t\t\t\"keyData\": \"kRFEb8LFabuOTvPgrKKrtA==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2648880,\n\t\t\t\"keyData\": \"iF6kj3C8ABl6z5DyBox2zg==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649024,\n\t\t\t\"keyData\": \"EjDdRDheosP0S0n2p5dcKQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649600,\n\t\t\t\"keyData\": \"tfPVyMVyFuRGe1JKHz+OnQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649744,\n\t\t\t\"keyData\": \"nIVltjjVHMeBmoyYuZdo3A==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649888,\n\t\t\t\"keyData\": \"NRpHXoD7Jllsh8hhCUZ+cw==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649600,\n\t\t\t\"keyData\": \"/r+7nvSPM23ftP2NNneUjw==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649744,\n\t\t\t\"keyData\": \"8tJt6iYdgl2Wh3MlHxMong==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2649888,\n\t\t\t\"keyData\": \"khS7zH7L7yWQNkg2WGpl7g==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/exposures",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exposures"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List exposures",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "27241370-7005-43c2-9e6f-c0d059d534f3",
+								"exec": [
+									"const schema = {",
+									"  type: 'array',",
+									"  additionalItems: false,",
+									"  items: {",
+									"    type: 'object',",
+									"    additionalProperties: false,",
+									"    required: [",
+									"      'id',",
+									"      'path'",
+									"    ],",
+									"    properties: {",
+									"      id: {",
+									"        type: 'integer'",
+									"      },",
+									"      path: {",
+									"        type: 'string'",
+									"      }",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('exposurePath', json[0].path)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/exposures?since=0",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exposures"
+							],
+							"query": [
+								{
+									"key": "since",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download exposures",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b9bb4a6-73e2-4724-a39a-564a7de60eef",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/zip",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{exposurePath}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{exposurePath}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Callback",
+			"item": [
+				{
+					"name": "Request callback",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"attenuationDurations\": [0, 1, 2],\n\t\"closeContactDate\": 1591005554175,\n\t\"daysSinceLastExposure\": 1,\n\t\"matchedKeyCount\": 5,\n\t\"maxRiskScores\": 10,\n\t\"mobile\": \"{{mobile}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/callback",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"callback"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Metrics",
+			"item": [
+				{
+					"name": "Post event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "event",
+									"value": "CONTACT_UPLOAD",
+									"type": "text"
+								},
+								{
+									"key": "os",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "version",
+									"value": "0.0.1-test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/metrics",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Forget",
+			"item": [
+				{
+					"name": "Forget account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ccab87f3-5510-4e63-bf96-5e8856bdbc16",
+								"exec": [
+									"pm.test('Status code is 204', () => {",
+									"    pm.response.to.have.status(204)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/register",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1c68404e-d546-4563-9399-025d31a30310",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "96023cca-231c-4d02-80af-9bbc86e480bf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
