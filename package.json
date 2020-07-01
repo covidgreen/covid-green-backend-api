@@ -36,6 +36,7 @@
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
+    "node-forge": "^0.9.1",
     "node-jose": "^1.1.4",
     "nodemon": "^2.0.1",
     "pg": "^7.18.2",
