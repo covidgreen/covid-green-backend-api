@@ -1,8 +1,8 @@
 {
-  "name": "contact-tracing-api",
+  "name": "exposure-notification-api",
   "version": "1.0.0",
   "private": true,
-  "description": "API service for contact tracing",
+  "description": "API service for exposure notification",
   "main": "index.js",
   "scripts": {
     "create:env": "node -r fs -e \"fs.copyFileSync('.env.sample', '.env', fs.constants.COPYFILE_EXCL)\"",
