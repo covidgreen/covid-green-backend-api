@@ -1,7 +1,7 @@
 const startServer = require('./lib/server')
 const getConfig = require('./lib/config')
 const { getPostgratorInstance } = require('./lib/migrate')
-
+const httpErrors = require('http-errors')
 const main = async () => {
   process.on('unhandledRejection', err => {
     console.error(err)
