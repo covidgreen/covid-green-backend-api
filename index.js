@@ -11,6 +11,8 @@ const main = async () => {
   const config = await getConfig()
   const postgrator = getPostgratorInstance(config)
 
+  // Confirm that all database migration files have been applied to the database
+  // instance we are connecting to. If not, don't allow the service to start.
   const expectedVersion = await postgrator.getMaxVersion()
   const currentVersion = await postgrator.getDatabaseVersion()
 
