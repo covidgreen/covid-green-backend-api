@@ -1,6 +1,6 @@
 # Verification Server and Key Submission Process
 
-The following describes endpoints and their function to ensure the NYS Covid Tracking system is compatible with the APHL Exposure Notification Verification and Key Servers defined in https://developers.gogle.com/android/exposure-notifications/verification-system. The NYS Covid Tracking system will launch using NYS specific verification and key servers with the intent of migrating to the national APHL key server when ready. Ensuring that the NYS verification server, NYS key server, and NYS Mobile Exposure Notification App are compatible with the national verification and key servers will allow for a seamless transition.
+The following describes endpoints and their function to ensure the NYS Covid Tracking system is compatible with the APHL Exposure Notification Verification and Key Servers defined in https://developers.google.com/android/exposure-notifications/verification-system. The NYS Covid Tracking system will launch using NYS specific verification and key servers with the intent of migrating to the national APHL key server when ready. Ensuring that the NYS verification server, NYS key server, and NYS Mobile Exposure Notification App are compatible with the national verification and key servers will allow for a seamless transition.
 
 The following Verification Flow Diagram can be used to help indicate which part of the process each step below is referring to.
 
