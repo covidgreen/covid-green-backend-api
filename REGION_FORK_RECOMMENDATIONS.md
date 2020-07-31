@@ -1,19 +1,32 @@
 # Region Specific Fork Recommendations
 
-This document describes recommendations for keeping forks of [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api) clean while also allowing for region specific changes. For example, the New York State fork [project-vagabond/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api) contains CICD workflows specific to NYS which should not be contributed back to Covid Green. These recommendations adhere to the project's [Contributing Guidelines](CONTRIBUTING.md).
+This document describes recommendations for keeping forks of 
+[covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api) 
+clean while also allowing for region specific changes. For example, the New York 
+State fork [project-vagabond/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api) 
+contains CICD workflows specific to NYS which should not be contributed back to 
+Covid Green. These recommendations adhere to the project's [Contributing Guidelines](CONTRIBUTING.md).
 
 ## Goals and When to Use
 
-These recommendations exist for the situations when a Public Health Authority is basing their Covid Tracing system on Covid Green but potentially making region specific changes. There are 4 overall goals to these recommendations
+These recommendations exist for the situations when a Public Health Authority is 
+basing their Covid Tracing system on Covid Green but potentially making region 
+specific changes. There are 4 overall goals to these recommendations
   
 1. All changes, unless explicitly region specific, will be contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
 1. Region specific forks will stay up-to-date with [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
 1. Region specific changes will never be contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
 1. Region specific changes will be limited in scope and never cause a merge conflict
 
-These recommendations exist because it is reasonable to assume that individual Public Health Authorities may want to customize specific pieces of the Covid Green codebase, but wish to do so in a way that will not cause explosive merge conflicts. These recommendations work best when the set of region specific changes are limited in scope, and unless explicitly region specific, all changes are contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
+These recommendations exist because it is reasonable to assume that individual 
+Public Health Authorities may want to customize specific pieces of the Covid 
+Green codebase, but wish to do so in a way that will not cause explosive merge 
+conflicts. These recommendations work best when the set of region specific changes 
+are limited in scope, and unless explicitly region specific, all changes are 
+contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
 
-As an example, [New York State's fork](https://github.com/project-vagabond/covid-green-backend-api) contains NYS specific workflow differences which cannot be contributed back to Covid Green.
+As an example, [New York State's fork](https://github.com/project-vagabond/covid-green-backend-api) 
+contains NYS specific workflow differences which cannot be contributed back to Covid Green.
 
 ## Branches
 
@@ -23,9 +36,14 @@ The following items are assumed to be true for these recommendations to apply.
 1. Covid Green's `current` branch may be merged into any fork's `current` branch without causing merge conflicts.
 1. `current` will never include region specific content
 
-The following branches within a region's fork, and rules associated with those branches, will help each region stay up-to-date with Covid Green. Region specific branches will never exist in the Covid Green project.
+The following branches within a region's fork, and rules associated with those 
+branches, will help each region stay up-to-date with Covid Green. Region specific 
+branches will never exist in the Covid Green project.
 
-For clarity, the table below assumes that the region is New York State (`nys`). Other regions will potentially have their own region specific branch naming convention. For example, Pennsylvania may use `penn`, New Jersey may use `njs`, Connecticut may use `conn`. 
+For clarity, the table below assumes that the region is New York State (`nys`). 
+Other regions will potentially have their own region specific branch naming 
+convention. For example, Pennsylvania may use `penn`, New Jersey may use `njs`, 
+Connecticut may use `conn`. 
 
 <table>
 <tr>
@@ -158,7 +176,9 @@ Branches containing changes to files in the `current` branch.
 
 ## Staying Up to Date
 
-Periodic pulls from [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api) will be necessary for a region specific fork to stay up to date with Covid Green. The following process can be used to reduce conflicts during these pulls.
+Periodic pulls from [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api) 
+will be necessary for a region specific fork to stay up to date with Covid Green. 
+The following process can be used to reduce conflicts during these pulls.
 
 The examples assume the following configured remotes:
 
@@ -189,5 +209,8 @@ $> git merge green/current
 $> git checkout nys # (or `git checkout penn`, `git checkout njs`, etc...)
 $> git rebase current
 
-# Again, due to rules above no merge conflicts should ever appear during this step. A region specific branch should only contain changes in files which don't exist in Covid Green. Because of this, those changes should be cleanly applicable to whatever has been done on `current`.
+# Again, due to rules above no merge conflicts should ever appear during this step. 
+# A region specific branch should only contain changes in files which don't exist 
+# in Covid Green. Because of this, those changes should be cleanly applicable to
+# whatever has been done on `current`.
 ```
