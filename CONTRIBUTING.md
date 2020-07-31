@@ -18,6 +18,8 @@ There are a few basic ground-rules for contributors:
 1. SemVer-major changes in this repository must be merged by a lead maintainer.
 1. In case it is not possible to reach consensus in a pull-request, the decision is left to the lead maintainers team.
 
+Recommendations to help region specific forks maintain a clean mergeable code base while at the same time support region-specific changes can be found in [REGION_FORK_RECOMMENDATIONS.md](REGION_FORK_RECOMMENDATIONS.md). 
+
 ## Releases
 
 Declaring formal releases remains the prerogative of the Lead Maintainers. Do not bump version numbers in pull requests.
