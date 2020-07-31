@@ -14,7 +14,7 @@ basing their Covid Tracing system on Covid Green but potentially making region
 specific changes. There are 4 overall goals to these recommendations
   
 1. Region specific forks will stay up-to-date with [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
-1. Non Region Specific changes will always be contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
+1. Non region specific changes will always be contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
 1. Region specific changes will never be contributed back to [covidgreen/covid-green-backend-api](https://github.com/covidgreen/covid-green-backend-api).
 1. Region specific changes will be limited in scope and never cause a merge conflict
 
