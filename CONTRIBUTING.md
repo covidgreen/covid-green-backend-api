@@ -44,7 +44,7 @@ Welcome to the team! We are happy to have you. Before you start, please complete
   - [GitHub 2FA](https://help.github.com/en/articles/securing-your-account-with-two-factor-authentication-2fa)
   - [NPM 2FA](https://docs.npmjs.com/about-two-factor-authentication)
 2. Choose which team to join *(more than one is ok!)* based on how you want to help.
-3. Open a pull request to [`covidgreen/covid-green-app:current`](https://github.com/covidgreen/covid-green-app/pulls) that adds your name, username, and email to the team you have choosen in the [README.md](./README.md). The members lists are sorted alphabetically; make sure to add your name in the proper order.
+3. Open a pull request to [`covidgreen/covid-green-backend-api:current`](https://github.com/covidgreen/covid-green-backend-api/pulls) that adds your name, username, and email to the team you have choosen in the [README.md](./README.md). The members lists are sorted alphabetically; make sure to add your name in the proper order.
 
 ### Offboarding Collaborators
 
@@ -52,7 +52,7 @@ We are thankful to you and we are really glad to have worked with you.
 We'll be really happy to see you here again if you want to come back, but for now the person that did the onboarding must:
 1. Ask the collaborator if they want to stay or not.
 1. If the collaborator can't work with us anymore, they should:
-  1. Open a pull request to [`covidgreen/covid-green-app:current`](https://github.com/covidgreen/covid-green-app/pulls) and move themselves in the *Past Collaborators* section.
+  1. Open a pull request to [`covidgreen/covid-green-backend-api:current`](https://github.com/covidgreen/covid-green-backend-api/pulls) and move themselves in the *Past Collaborators* section.
 
 The person that did the onboarding must:
 1. If the collaborator doesn't reply to the ping in reasonable time, open the pull requests described above.
