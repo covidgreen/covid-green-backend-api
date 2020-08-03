@@ -66,8 +66,7 @@ There are a number of handy commands you can run to help with development.
 
 ### Contributors
 
-* TBD
-* TBD
+* @dennisgove - Dennis Gove <dgove1@bloomberg.net>
 
 ### Past Contributors
 
