@@ -42,7 +42,7 @@ jobs:
 
   publish-nys:
     if: github.repository_owner == 'project-vagabond'
-    name: Publish Push API for NYS
+    name: Publish Backend API for NYS
     runs-on: ubuntu-latest
     needs: [ run-tests, verify-lint ]
 
