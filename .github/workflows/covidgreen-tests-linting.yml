@@ -1,6 +1,10 @@
-name: Pull Request Verifications
+name: Run Tests / Verify Linting
 
-on: pull_request
+on:
+  push:
+    branches:
+      current
+  pull_request:
 
 jobs:
   run-tests:
