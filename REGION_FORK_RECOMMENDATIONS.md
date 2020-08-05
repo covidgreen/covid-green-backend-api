@@ -107,7 +107,7 @@ Allows regions to cleanly rebase off Covid Green without running into merge conf
 
 1. Changes in this branch are not allowed on files that exist in `current`.
 
-1. PRs can be accepted IFF they come from `nys-*` branches and do not contain changes to files in `current`.
+1. PRs can be accepted if and only if they come from `nys-*` branches and do not contain changes to files in `current`.
 
 </td>
 </tr>
