@@ -47,7 +47,7 @@ At this point the API service is up and listening on port 5000. Editing files wi
 
 You can also run the API with Docker as well. This is recommended if running outside of Docker fails for unexpected local environment or dependency conflicts. For example, we've seen issues running the API with Node 14.x as it's only been certified with Node 12.x.
 
-You an start everything with one single command.
+You can start everything with one single command.
 ```bash
 $> docker-compose up
 Starting covid-green-db            ... done
