@@ -49,7 +49,8 @@ You can also run the API with Docker as well. This is recommended if running out
 
 You can start everything with one single command.
 ```bash
-$> docker-compose up
+$> npm run system:up
+....
 Starting covid-green-db            ... done
 Starting covid-green-db-migrations ... done
 Starting covid-green-api           ... done
@@ -111,6 +112,14 @@ There are a number of handy commands you can run to help with development.
 |`db:migrate:until-done`| Keep trying to migrate the database until it completes successfully |
 |`db:check:readiness`| Return 0 rcode if the database is migrated and ready |
 |`db:wait:readiness`| Wait until the database is migrated and ready |
+|`system:up`| Start everything using docker-compose |
+|`system:down`| Stop everything using docker-compose |
+|`system:nuke`| Stop and delete everything using docker-compose |
+
+
+"system:up": "docker-compose up",
+    "system:down": "docker-compose down",
+    "system:nuke": "docker-compose down -v --rmi all
 
 ## Team
 

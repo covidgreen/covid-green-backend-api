@@ -21,7 +21,10 @@
     "api:start:when-ready": "npm run db:wait:readiness && npm start",
     "db:migrate:until-done": "while ! node lib/migrate.js; do sleep 1; done && npm run db:check:readiness",
     "db:check:readiness": "node lib/is-database-ready.js",
-    "db:wait:readiness": "while ! node lib/is-database-ready.js; do sleep 1; done"
+    "db:wait:readiness": "while ! node lib/is-database-ready.js; do sleep 1; done",
+    "system:up": "docker-compose up",
+    "system:down": "docker-compose down",
+    "system:nuke": "docker-compose down -v --rmi all"
   },
   "dependencies": {
     "@nearform/sql": "^1.4.0",
