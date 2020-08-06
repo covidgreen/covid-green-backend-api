@@ -13,7 +13,7 @@
     "start:dev": "nodemon --config .nodemonrc . | pino-pretty --colorize",
     "test": "jest --config .jest.json --coverage",
     "test:watch": "jest --config .jest.json --watch --verbose",
-    "db:up": "docker-compose up -d",
+    "db:up": "docker-compose up -d covid-green-db",
     "db:migrate": "node lib/migrate.js",
     "db:down": "docker-compose down",
     "db:delete": "docker-compose down -v",
