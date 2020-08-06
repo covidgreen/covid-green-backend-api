@@ -79,7 +79,7 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f ./Dockerfile-db-setup -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
