@@ -6,6 +6,74 @@
 	},
 	"item": [
 		{
+			"name": "Healthcheck",
+			"item": [
+				{
+					"name": "API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "61aff2ae-3931-4a97-822f-30e93dcfb660",
+								"exec": [
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/healthcheck",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4d0f6135-8568-4aca-91c6-d008d889a245",
+								"exec": [
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{push}}/healthcheck",
+							"host": [
+								"{{push}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Registration",
 			"item": [
 				{
@@ -688,7 +756,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Notify",
+			"name": "Publish keys (token)",
 			"item": [
 				{
 					"name": "Notify positive",
@@ -696,16 +764,25 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "22aaaab0-6978-473b-a343-5dec6d8cd434",
+								"id": "10a4e40c-1e65-4eb4-84b9-6fed32e5fe89",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
 									"  additionalProperties: false,",
 									"  required: [",
-									"    'code'",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp'",
 									"  ],",
 									"  properties: {",
 									"    code: {",
+									"      type: 'string'",
+									"    },",
+									"    error: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAt: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAtTimestamp: {",
 									"      type: 'string'",
 									"    }",
 									"  }",
@@ -744,20 +821,12 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "mobile",
-									"value": "{{mobile}}",
-									"type": "text"
-								},
-								{
-									"key": "onsetDate",
-									"value": "2020-01-01",
-									"type": "text"
-								}
-							],
+							"mode": "raw",
+							"raw": "{\r\n    \"onsetDate\": \"2020-01-01\",\r\n    \"testDate\": \"2020-01-01\",\r\n    \"jobId\": \"{{$randomUUID}}\"\r\n}",
 							"options": {
+								"raw": {
+									"language": "json"
+								},
 								"urlencoded": {}
 							}
 						},
@@ -773,15 +842,9 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Exposures",
-			"item": [
+				},
 				{
-					"name": "Verify hash",
+					"name": "Verify code",
 					"event": [
 						{
 							"listen": "test",
@@ -844,15 +907,15 @@
 					"response": []
 				},
 				{
-					"name": "Upload exposures",
+					"name": "Upload keys",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "494d3072-bb45-421f-a0f5-35aae24959b0",
+								"id": "ef4c336b-6dff-4dae-9e06-a754eb1e4d46",
 								"exec": [
-									"pm.test('Status code is 204', () => {",
-									"    pm.response.to.have.status(204)",
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
 									"})"
 								],
 								"type": "text/javascript"
@@ -864,7 +927,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"token\": \"{{uploadToken}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"exposures\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"wTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"kRFEb8LFabuOTvPgrKKrtA==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"iF6kj3C8ABl6z5DyBox2zg==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"EjDdRDheosP0S0n2p5dcKQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"tfPVyMVyFuRGe1JKHz+OnQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"nIVltjjVHMeBmoyYuZdo3A==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"NRpHXoD7Jllsh8hhCUZ+cw==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"/r+7nvSPM23ftP2NNneUjw==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"8tJt6iYdgl2Wh3MlHxMong==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"khS7zH7L7yWQNkg2WGpl7g==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
+							"raw": "{\n\t\"token\": \"{{uploadToken}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"exposures\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"zTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"aXx+Y+vsFxahG6BcRh5cRH==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -882,7 +945,276 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Publish keys (certificate)",
+			"item": [
+				{
+					"name": "Issue code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "22aaaab0-6978-473b-a343-5dec6d8cd434",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp'",
+									"  ],",
+									"  properties: {",
+									"    code: {",
+									"      type: 'string'",
+									"    },",
+									"    error: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAt: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAtTimestamp: {",
+									"      type: 'string'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('code', json.code.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pushToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"symptomDate\": \"2020-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								},
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{push}}/issue",
+							"host": [
+								"{{push}}"
+							],
+							"path": [
+								"issue"
+							]
+						}
+					},
+					"response": []
 				},
+				{
+					"name": "Exchange code for token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c4ac3c9a-e5a0-403c-ba2a-dab010aacca8",
+								"exec": [
+									"const schema = {\r",
+									"  type: 'object',\r",
+									"  additionalProperties: false,\r",
+									"  required: [\r",
+									"    'testtype', 'symptomDate', 'token', 'error'\r",
+									"  ],\r",
+									"  properties: {\r",
+									"    testtype: {\r",
+									"      type: 'string',\r",
+									"      enum: ['confirmed', 'likely', 'negative']\r",
+									"    },\r",
+									"    symptomDate: {\r",
+									"      type: 'string',\r",
+									"      format: 'date'\r",
+									"    },\r",
+									"    token: {\r",
+									"      type: 'string'\r",
+									"    },\r",
+									"    error: {\r",
+									"      type: 'string'\r",
+									"    }\r",
+									"  }\r",
+									"}\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test('Schema is valid', () => {\r",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.environment.set('certificateToken', json.token.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"{{code}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/verify",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exchange token for certificate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6d666a66-08e3-4908-ad92-db826498f5fb",
+								"exec": [
+									"const schema = {\r",
+									"  type: 'object',\r",
+									"  additionalProperties: false,\r",
+									"  required: [\r",
+									"    'certificate', 'error'\r",
+									"  ],\r",
+									"  properties: {\r",
+									"    certificate: {\r",
+									"      type: 'string'\r",
+									"    },\r",
+									"    error: {\r",
+									"      type: 'string'\r",
+									"    }\r",
+									"  }\r",
+									"}\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test('Schema is valid', () => {\r",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.environment.set('certificate', json.certificate.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{certificateToken}}\",\r\n    \"ekeyhmac\": \"TSNqhYMKOYD+WqPdApJBX1+0n/c0C6cwV+sPYnv9aLQ=\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/certificate",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"certificate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish keys",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "494d3072-bb45-421f-a0f5-35aae24959b0",
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"hmackey\": \"blUierXcpJjgf/fRAR54pfInFPHPs4aWFB6vQ3B4gI+pp1MBMj4yPmJLyK5VlT09n3E/9Fh4stCiWbdmrb/B7SsmJ3x9vOupPuwcHFTAsGGRXEw0X7lG/Bz6SgzIKa3Bgbg7Jr5DSiIVciSuL15biPcW+LFxzkmiOBihZy8J6Fs=\",\n\t\"verificationPayload\": \"{{certificate}}\",\n\t\"appPackageName\": \"{{appPackageName}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"regions\": [\n\t\t\"IE\"\n\t],\n\t\"temporaryExposureKeys\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"zTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"aXx+Y+vsFxahG6BcRh5cRH==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/exposures",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exposures"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Download keys",
+			"item": [
 				{
 					"name": "List exposures",
 					"event": [
@@ -998,7 +1330,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"attenuationDurations\": [0, 1, 2],\n\t\"closeContactDate\": 1591005554175,\n\t\"daysSinceLastExposure\": 1,\n\t\"matchedKeyCount\": 5,\n\t\"maxRiskScores\": 10,\n\t\"mobile\": \"{{mobile}}\"\n}",
+							"raw": "{\n\t\"closeContactDate\": 1591005554175,\n\t\"mobile\": \"{{mobile}}\",\n\t\"payload\": {\n\t\t\"matchedKeys\": 3,\n        \"attenuations\": \"5,10,15\",\n        \"maxRiskScore\": 74\n\t}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1071,7 +1403,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{push}}/metrics?startDate=2020-07-01&endDate=2020-07-30",
+							"raw": "{{push}}/metrics?startDate=2020-05-01&endDate=2020-08-31&summary=true",
 							"host": [
 								"{{push}}"
 							],
@@ -1081,11 +1413,15 @@
 							"query": [
 								{
 									"key": "startDate",
-									"value": "2020-07-01"
+									"value": "2020-05-01"
 								},
 								{
 									"key": "endDate",
-									"value": "2020-07-30"
+									"value": "2020-08-31"
+								},
+								{
+									"key": "summary",
+									"value": "true"
 								}
 							]
 						}
