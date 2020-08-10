@@ -139,7 +139,7 @@ There are a number of handy commands you can run to help with development.
 
 ### Contributors
 
-* @dennisgove - Dennis Gove <dgove1@bloomberg.net>
+* @dennisgove - Dennis Gove <dpgove@gmail.com>
 
 ### Past Contributors
 
