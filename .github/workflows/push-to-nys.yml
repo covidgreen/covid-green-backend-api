@@ -49,6 +49,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -61,12 +63,23 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Bump version and push tag
+        id: get-next-tag
+        uses: anothrNick/github-tag-action@1.23.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+          DRY_RUN: true
+          TAG_CONTEXT: branch
+          RELEASE_BRANCHES: nys
+
       - name: Build, tag, and push API image to Amazon ECR
         id: build-api-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.REPOSITORY_API }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
           docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -77,11 +90,24 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
           docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get-next-tag.outputs.new_tag }}
+          release_name: Release ${{ steps.get-next-tag.outputs.new_tag }}
+          body: |
+            ${{ steps.get-next-tag.outputs.new_tag }}
+          draft: false
+          prerelease: false
 
       - name: Logout of Amazon ECR
         if: always()
