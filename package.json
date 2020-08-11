@@ -13,10 +13,18 @@
     "start:dev": "nodemon --config .nodemonrc . | pino-pretty --colorize",
     "test": "jest --config .jest.json --coverage",
     "test:watch": "jest --config .jest.json --watch --verbose",
+    "db:up": "docker-compose up -d covid-green-db",
     "db:migrate": "node lib/migrate.js",
-    "db:up": "docker-compose up -d",
     "db:down": "docker-compose down",
-    "db:delete": "docker-compose down -v"
+    "db:delete": "docker-compose down -v",
+    "api:start:dev:when-ready": "npm run db:wait:readiness && npm run start:dev",
+    "api:start:when-ready": "npm run db:wait:readiness && npm start",
+    "db:migrate:until-done": "while ! node lib/migrate.js; do sleep 1; done && npm run db:check:readiness",
+    "db:check:readiness": "node lib/is-database-ready.js",
+    "db:wait:readiness": "while ! node lib/is-database-ready.js; do sleep 1; done",
+    "system:up": "docker-compose up",
+    "system:down": "docker-compose down",
+    "system:nuke": "docker-compose down -v --rmi all"
   },
   "dependencies": {
     "@nearform/sql": "^1.4.0",
@@ -39,7 +47,7 @@
     "node-forge": "^0.9.1",
     "node-jose": "^1.1.4",
     "nodemon": "^2.0.4",
-    "pg": "^7.18.2",
+    "pg": "^8.3.0",
     "pg-range": "^1.1.0",
     "postgrator": "^3.11.0",
     "uuid": "^8.0.0"
