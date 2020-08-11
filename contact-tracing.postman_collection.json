@@ -914,8 +914,8 @@
 							"script": {
 								"id": "ef4c336b-6dff-4dae-9e06-a754eb1e4d46",
 								"exec": [
-									"pm.test('Status code is 200', () => {",
-									"    pm.response.to.have.status(200)",
+									"pm.test('Status code is 204', () => {",
+									"    pm.response.to.have.status(204)",
 									"})"
 								],
 								"type": "text/javascript"
