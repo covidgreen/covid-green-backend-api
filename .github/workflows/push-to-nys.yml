@@ -52,7 +52,6 @@ jobs:
         with:
           fetch-depth: '0'
 
-
       - name: Bump version and push tag
         id: get-next-tag
         uses: anothrNick/github-tag-action@1.23.0
@@ -125,11 +124,11 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: QA: Build, tag, and push MIGRATIONS image to Amazon ECR
-        id: build-migrations-image-qa
+      - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+        id: build-migrations-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_QA }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
           IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
           docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
