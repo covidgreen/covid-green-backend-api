@@ -64,18 +64,18 @@ jobs:
           RELEASE_BRANCHES: nys
 
 ## DEV ####################################
-      - name: DEV: Configure AWS credentials
+      - name: DEV Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
           aws-region: ${{ secrets.AWS_REGION_DEV }}
 
-      - name: DEV: Login to Amazon ECR
+      - name: DEV Login to Amazon ECR
         id: login-ecr-dev
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: DEV: Build, tag, and push API image to Amazon ECR
+      - name: DEV Build, tag, and push API image to Amazon ECR
         id: build-api-image-dev
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-dev.outputs.registry }}
@@ -86,10 +86,10 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: DEV: Build, tag, and push MIGRATIONS image to Amazon ECR
+      - name: DEV Build, tag, and push MIGRATIONS image to Amazon ECR
         id: build-migrations-image-dev
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-dev.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_DEV }}
           IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
@@ -97,23 +97,23 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: DEV: Logout of Amazon ECR
+      - name: DEV Logout of Amazon ECR
         if: always()
         run: docker logout ${{ steps.login-ecr-dev.outputs.registry }}
 
 ## QA ####################################
-      - name: QA: Configure AWS credentials
+      - name: QA Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_QA }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_QA }}
           aws-region: ${{ secrets.AWS_REGION_QA }}
 
-      - name: QA: Login to Amazon ECR
+      - name: QA Login to Amazon ECR
         id: login-ecr-qa
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: QA: Build, tag, and push API image to Amazon ECR
+      - name: QA Build, tag, and push API image to Amazon ECR
         id: build-api-image-qa
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
@@ -125,9 +125,9 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Build, tag, and push MIGRATIONS image to Amazon ECR
-        id: build-migrations-image
+        id: build-migrations-image-qa
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
           IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
@@ -135,9 +135,47 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: QA: Logout of Amazon ECR
+      - name: QA Logout of Amazon ECR
         if: always()
         run: docker logout ${{ steps.login-ecr-qa.outputs.registry }}
+
+## PROD ####################################
+      - name: PROD Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+          aws-region: ${{ secrets.AWS_REGION_PROD }}
+
+      - name: PROD Login to Amazon ECR
+        id: login-ecr-prod
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: PROD Build, tag, and push API image to Amazon ECR
+        id: build-api-image-prod
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-prod.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_API_PROD }}
+          IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
+        run: |
+          docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+        id: build-migrations-image-prod
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-prod.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
+          IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
+        run: |
+          docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: PROD Logout of Amazon ECR
+        if: always()
+        run: docker logout ${{ steps.login-ecr-prod.outputs.registry }}
 
       - name: Create Release
         id: create_release
