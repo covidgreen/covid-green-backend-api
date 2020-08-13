@@ -116,10 +116,56 @@ There are a number of handy commands you can run to help with development.
 |`system:down`| Stop everything using docker-compose |
 |`system:nuke`| Stop and delete everything using docker-compose |
 
+### Configuration & Secrets
 
-"system:up": "docker-compose up",
-    "system:down": "docker-compose down",
-    "system:nuke": "docker-compose down -v --rmi all
+All the endpoints in this service use varied sets of configuration settings and secrets.
+
+#### Non Secret Settings
+
+| .env | AWS Property Key | Description |
+| :--- | :--- | :--- |
+| `AWS_REGION` | None | AWS region where we're running |
+| `CONFIG_VAR_PREFIX` | None | Prefix of all configuration property and secret names |
+| `NODE_ENV` | None | Some string with env name in it - Some string with 'production' in it means running in production |
+| `API_HOST` | `api_host` | Name of host API is running on |
+| `API_PORT` | `api_port` | Port API is listening on |
+| `ENABLE_CALLBACK` | `enable_callback` | Boolean indicating whether feature is turned on |
+| `ENABLE_CHECK_IN` | `enable_check_in` | Boolean indicating whether feature is turned on |
+| `ENABLE_METRICS` | `enable_metrics` | Boolean indicating whether feature is turned on |
+| `LOG_LEVEL` | `log_level` | Standard logging level setting |
+| `CORS_ORIGIN` | `cors_origin` | Boolean indicating something about CORS |
+| `DB_HOST` | `db_host` | Connection host for database (writing/reading) |
+| `DB_READ_HOST` | `db_read_host` | Connection host for database (reading) |
+| `DB_PORT` | `db_port` | Port the database is listening on |
+| `DB_DATABASE` | `db_database` | Name of database to connect to |
+| `DB_SSL` | `db_ssl` | Boolean indicating whether database connection should be SSL |
+| `DEFAULT_REGION` | `default_region` | Default Covid region |
+| `REFRESH_TOKEN_EXPIRY` | `security_refresh_token_expiry` | ?? |
+| `EXPOSURE_LIMIT` | ?? | ?? |
+| `CODE_LIFETIME_MINS` | `security_code_lifetime_mins` | ?? |
+| `TOKEN_LIFETIME_MINS` | `security_token_lifetime_mins` | ?? |
+| `UPLOAD_TOKEN_LIFETIME_MINS` | `upload_token_lifetime_mins` | ?? |
+| `VERIFY_RATE_LIMIT_SECS` | `security_verify_rate_limit_secs` | ?? |
+| `CALLBACK_QUEUE_URL` | `callback_url` | ?? |
+| `ASSETS_BUCKET` | `s3_assets_bucket` | ?? |
+| `CALLBACK_RATE_LIMIT_SECS` | `security_callback_rate_limit_secs` | # of seconds required before a user can request another callback |
+
+#### Secret Settings
+
+| .env | AWS Secret Key | Field | Meaning
+| :--- | :--- | :--- | :--- |
+| `DB_USER` | `rds-read-write-create` | `username` | Database username |
+| `DB_PASSWORD` | `rds-read-write-create` | `password` | Database password |
+| `ENCRYPT_KEY` | `encrypt` | `key` | Key used to encrypt things |
+| `JWT_SECRET` | `jwt` | `key` | ?? |\
+| `DEVICE_CHECK_KEY_ID` | `device-check` | `keyId` | ?? |
+| `DEVICE_CHECK_KEY` | `device-check` | `key` | ?? |
+| `DEVICE_CHECK_TEAM_ID` | `device-check` | `teamId` | ?? |
+| `DEVICE_CHECK_PACKAGE_NAME` | `device-check` | `apkPackageName` | ?? |
+| `DEVICE_CHECK_PACKAGE_DIGEST` | `device-check` | `apkDigestSha256` | ?? |
+| `DEVICE_CHECK_CERTIFICATE_DIGEST` | `device-check` | `apkCertificateDigestSha256` | ?? |
+| `DEVICE_CHECK_ROOT_CA` | `device-check` | `safetyNetRootCa` | ?? |
+| `DEVICE_CHECK_TIME_DIFF_THRESHOLD_MINS` | `device-check` | `timeDifferenceThresholdMins` | ?? |
 
 ## Team
 
