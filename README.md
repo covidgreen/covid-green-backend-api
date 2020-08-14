@@ -149,6 +149,7 @@ All the endpoints in this service use varied sets of configuration settings and 
 | `CALLBACK_QUEUE_URL` | `callback_url` | ?? |
 | `ASSETS_BUCKET` | `s3_assets_bucket` | ?? |
 | `CALLBACK_RATE_LIMIT_SECS` | `security_callback_rate_limit_secs` | # of seconds required before a user can request another callback |
+| `CALLBACK_RATE_LIMIT_REQUEST_COUNT` | `security_callback_rate_limit_request_count` | # of callback requests allowed before rate limit goes into effect |
 
 #### Secret Settings
 
