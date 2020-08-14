@@ -128,7 +128,7 @@ jobs:
         id: build-migrations-image-qa
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_QA }}
           IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
           docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -166,7 +166,7 @@ jobs:
         id: build-migrations-image-prod
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-prod.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_PROD }}
           IMAGE_TAG: ${{ steps.get-next-tag.outputs.new_tag }}
         run: |
           docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
