@@ -30,7 +30,8 @@ const main = async () => {
   server.log.info(`Server running at: ${address}`)
 
   for (const signal of ['SIGINT', 'SIGTERM']) {
-    process.on(signal, () => {
+    // Use once() so that double signals exits the app
+    process.once(signal, () => {
       server.log.info({ signal }, 'closing application')
       server
         .close()
