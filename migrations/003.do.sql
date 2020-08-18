@@ -1,3 +1,2 @@
-ALTER TABLE verifications ADD COLUMN test_type TEXT NOT NULL DEFAULT 'confirmed';
-ALTER TABLE upload_tokens ADD COLUMN test_type TEXT NOT NULL DEFAULT 'confirmed';
-ALTER TABLE exposures ADD COLUMN test_type TEXT NOT NULL DEFAULT 'confirmed';
+ALTER TABLE registrations ADD COLUMN IF NOT EXISTS callback_rate_count INTEGER NULL;
+ALTER TABLE registrations ADD COLUMN IF NOT EXISTS callback_request_total INTEGER NULL;
