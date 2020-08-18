@@ -59,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch
-          DRY_RUN: true
+          DRY_RUN: false
           TAG_CONTEXT: branch
           RELEASE_BRANCHES: nys
 
