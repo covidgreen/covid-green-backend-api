@@ -1,0 +1,3 @@
+ALTER TABLE verifications ADD COLUMN IF NOT EXISTS test_type TEXT NOT NULL DEFAULT 'confirmed';
+ALTER TABLE upload_tokens ADD COLUMN IF NOT EXISTS test_type TEXT NOT NULL DEFAULT 'confirmed';
+ALTER TABLE exposures ADD COLUMN IF NOT EXISTS test_type TEXT NOT NULL DEFAULT 'confirmed';
