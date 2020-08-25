@@ -801,6 +801,8 @@
 									"  pm.expect(tv4.validate(json, schema)).to.be.true",
 									"})",
 									"",
+									"pm.environment.set('code', json.code.toString())",
+									"",
 									"const control = CryptoJS.SHA512(json.code.toString().substr(0, Math.floor(json.code.length / 2))).toString(CryptoJS.enc.Hex)",
 									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
 									"",
@@ -998,10 +1000,7 @@
 									"  pm.expect(tv4.validate(json, schema)).to.be.true",
 									"})",
 									"",
-									"const control = CryptoJS.SHA512(json.code.toString().substr(0, Math.floor(json.code.length / 2))).toString(CryptoJS.enc.Hex)",
-									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
-									"",
-									"pm.environment.set('uploadHash', `${control}${code}`)"
+									"pm.environment.set('code', json.code.toString())"
 								],
 								"type": "text/javascript"
 							}
