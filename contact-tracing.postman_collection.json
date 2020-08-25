@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d8828e04-1417-4ac5-8b0d-fadde7649f49",
+		"_postman_id": "41105b40-c4b4-4073-8b9e-e6a7fde47a4b",
 		"name": "Contact Tracing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "61aff2ae-3931-4a97-822f-30e93dcfb660",
+								"id": "da084aab-2b88-4410-ae8d-de5d22ccd460",
 								"exec": [
 									"pm.test('Status code is 200', () => {\r",
 									"  pm.response.to.have.status(200)\r",
@@ -45,7 +45,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4d0f6135-8568-4aca-91c6-d008d889a245",
+								"id": "a470db86-0114-4782-829c-9f887da850e2",
 								"exec": [
 									"pm.test('Status code is 200', () => {\r",
 									"  pm.response.to.have.status(200)\r",
@@ -82,7 +82,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5edd8aaf-b3e2-4e2c-ac46-0321a94c6991",
+								"id": "ee369433-2ed0-4b4a-ac62-0db373146e25",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -137,7 +137,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9d63cc5-8e75-4fbe-b9d3-439d79044100",
+								"id": "faf07154-2f90-4011-82b8-5b775d137322",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -216,7 +216,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "1c43c0c6-860b-446a-8961-c59c04820936",
+						"id": "2139d829-75d8-4e8b-81ff-be4adcce385b",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -226,7 +226,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1a8b9f60-317f-43bc-a853-cef0a36b7f9f",
+						"id": "49bec672-8713-41a4-9ce7-aa1ca7009235",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -245,7 +245,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "50aca5d7-be6e-4150-ba50-1321adffd795",
+								"id": "1abf46b9-cfb5-43a3-9026-b6d45500452d",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -313,7 +313,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1ea98cd6-4c42-4d00-a65a-3aaf34c9f97d",
+								"id": "04f04527-d38e-411f-af14-bbdf7326d851",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -365,7 +365,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f489590-452c-4a6f-bc82-1a38a2b546f2",
+								"id": "8a83911b-843c-484b-9178-3918b1b47efd",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -415,7 +415,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27a2ee71-4a53-4736-a803-b38b6894d210",
+								"id": "d7d2276e-8edd-4a09-bd82-1c808d617dbd",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -468,7 +468,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8503a00b-1bc6-438e-8a7a-4df1d7e7e37b",
+								"id": "1e56910b-3e02-4787-aadf-a5b5c891d2eb",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -708,7 +708,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f068035a-dbb7-42e6-b335-4a590d6a41bd",
+								"id": "794026c3-6222-4b8d-b192-7caadd6a9cf8",
 								"exec": [
 									""
 								],
@@ -718,7 +718,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "177539e5-8e2f-42bb-a95f-12f42d307b55",
+								"id": "2e610de1-97cb-45f9-87bc-5b4f350e79bc",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -764,13 +764,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "10a4e40c-1e65-4eb4-84b9-6fed32e5fe89",
+								"id": "e5fa2ef9-8150-415e-b33e-f7bb767a8703",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
 									"  additionalProperties: false,",
 									"  required: [",
-									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp'",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp', 'smsSent'",
 									"  ],",
 									"  properties: {",
 									"    code: {",
@@ -784,6 +784,9 @@
 									"    },",
 									"    expiresAtTimestamp: {",
 									"      type: 'string'",
+									"    },",
+									"    smsSent: {",
+									"      type: 'boolean'",
 									"    }",
 									"  }",
 									"}",
@@ -797,6 +800,8 @@
 									"pm.test('Schema is valid', () => {",
 									"  pm.expect(tv4.validate(json, schema)).to.be.true",
 									"})",
+									"",
+									"pm.environment.set('code', json.code.toString())",
 									"",
 									"const control = CryptoJS.SHA512(json.code.toString().substr(0, Math.floor(json.code.length / 2))).toString(CryptoJS.enc.Hex)",
 									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
@@ -849,7 +854,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "163cacd3-5702-4b1d-8063-1792dc79d76b",
+								"id": "6300c666-a3e8-4ac8-a0e2-40f891613baf",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -912,7 +917,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef4c336b-6dff-4dae-9e06-a754eb1e4d46",
+								"id": "3c25e285-bbbd-490a-9fed-709048931dc6",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -958,13 +963,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "22aaaab0-6978-473b-a343-5dec6d8cd434",
+								"id": "c0b4229c-77ae-42a0-bb4d-680628f09c59",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
 									"  additionalProperties: false,",
 									"  required: [",
-									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp'",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp', 'smsSent'",
 									"  ],",
 									"  properties: {",
 									"    code: {",
@@ -978,6 +983,9 @@
 									"    },",
 									"    expiresAtTimestamp: {",
 									"      type: 'string'",
+									"    },",
+									"    smsSent: {",
+									"      type: 'boolean'",
 									"    }",
 									"  }",
 									"}",
@@ -1039,7 +1047,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c4ac3c9a-e5a0-403c-ba2a-dab010aacca8",
+								"id": "34738875-f45a-4339-82b9-978d3369e9a7",
 								"exec": [
 									"const schema = {\r",
 									"  type: 'object',\r",
@@ -1111,7 +1119,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6d666a66-08e3-4908-ad92-db826498f5fb",
+								"id": "f827ab04-1c11-4af9-892d-246b67bfe6ca",
 								"exec": [
 									"const schema = {\r",
 									"  type: 'object',\r",
@@ -1175,7 +1183,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "494d3072-bb45-421f-a0f5-35aae24959b0",
+								"id": "fba58888-a84c-4494-a70a-7b7daed7cf06",
 								"exec": [
 									"pm.test('Status code is 200', () => {",
 									"    pm.response.to.have.status(200)",
@@ -1221,7 +1229,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27241370-7005-43c2-9e6f-c0d059d534f3",
+								"id": "aff3711a-f0cb-4e98-a100-da17f643724b",
 								"exec": [
 									"const schema = {",
 									"  type: 'array',",
@@ -1287,7 +1295,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2b9bb4a6-73e2-4724-a39a-564a7de60eef",
+								"id": "e54ca34a-5da2-47bc-9abe-4971011c2e99",
 								"exec": [
 									""
 								],
@@ -1440,7 +1448,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ccab87f3-5510-4e63-bf96-5e8856bdbc16",
+								"id": "9d88e8a7-89e8-4aa2-9781-76797263a962",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -1483,7 +1491,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "1c68404e-d546-4563-9399-025d31a30310",
+				"id": "1b2ec671-00b0-400e-a963-436a55cb32bc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1493,7 +1501,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "96023cca-231c-4d02-80af-9bbc86e480bf",
+				"id": "5f2669fb-3618-4ece-9bec-bd4413f23a7d",
 				"type": "text/javascript",
 				"exec": [
 					""
