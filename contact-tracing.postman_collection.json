@@ -847,93 +847,6 @@
 					"response": []
 				},
 				{
-					"name": "Issue Verification Code",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "09985d03-1993-4bb7-9db6-cc1b5aded22b",
-								"exec": [
-									"const schema = {",
-									"  type: 'object',",
-									"  additionalProperties: false,",
-									"  required: [",
-									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp', 'smsSent'",
-									"  ],",
-									"  properties: {",
-									"    code: {",
-									"      type: 'string'",
-									"    },",
-									"    error: {",
-									"      type: 'string'",
-									"    },",
-									"    expiresAt: {",
-									"      type: 'string'",
-									"    },",
-									"    expiresAtTimestamp: {",
-									"      type: 'string'",
-									"    },",
-									"    smsSent: {",
-									"      type: 'boolean'",
-									"    }",
-									"  }",
-									"}",
-									"",
-									"const json = pm.response.json()",
-									"",
-									"pm.test('Status code is 200', () => {",
-									"  pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test('Schema is valid', () => {",
-									"  pm.expect(tv4.validate(json, schema)).to.be.true",
-									"})",
-									"",
-									"const control = CryptoJS.SHA512(json.code.toString().substr(0, Math.floor(json.code.length / 2))).toString(CryptoJS.enc.Hex)",
-									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
-									"",
-									"pm.environment.set('uploadHash', `${control}${code}`)"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{pushToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"onsetDate\": \"2020-01-01\",\r\n    \"testDate\": \"2020-01-01\",\r\n    \"jobId\": \"{{$randomUUID}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								},
-								"urlencoded": {}
-							}
-						},
-						"url": {
-							"raw": "{{push}}/issue",
-							"host": [
-								"{{push}}"
-							],
-							"path": [
-								"issue"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Verify code",
 					"event": [
 						{
@@ -1054,7 +967,7 @@
 									"  type: 'object',",
 									"  additionalProperties: false,",
 									"  required: [",
-									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp'",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp', 'smsSent'",
 									"  ],",
 									"  properties: {",
 									"    code: {",
@@ -1068,6 +981,9 @@
 									"    },",
 									"    expiresAtTimestamp: {",
 									"      type: 'string'",
+									"    },",
+									"    smsSent: {",
+									"      type: 'boolean'",
 									"    }",
 									"  }",
 									"}",
@@ -1082,7 +998,10 @@
 									"  pm.expect(tv4.validate(json, schema)).to.be.true",
 									"})",
 									"",
-									"pm.environment.set('code', json.code.toString())"
+									"const control = CryptoJS.SHA512(json.code.toString().substr(0, Math.floor(json.code.length / 2))).toString(CryptoJS.enc.Hex)",
+									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
+									"",
+									"pm.environment.set('uploadHash', `${control}${code}`)"
 								],
 								"type": "text/javascript"
 							}
