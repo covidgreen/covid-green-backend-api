@@ -46,7 +46,6 @@
     "node-fetch": "^2.6.0",
     "node-forge": "^0.9.1",
     "node-jose": "^1.1.4",
-    "nodemon": "^2.0.4",
     "pg": "^8.3.0",
     "pg-range": "^1.1.0",
     "postgrator": "^3.11.0",
@@ -66,6 +65,7 @@
     "faker": "^4.1.0",
     "jest": "^24.0.0",
     "lint-staged": "^8.1.4",
+    "nodemon": "^2.0.4",
     "pino-pretty": "^3.5.0",
     "prettier": "^1.19.1",
     "prettier-config-standard": "^1.0.1"
