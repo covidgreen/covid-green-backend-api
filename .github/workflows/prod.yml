@@ -473,3 +473,81 @@ jobs:
         service: prod-jers-api
         cluster: prod-jers
         wait-for-service-stability: true
+
+  deploy-dela:
+    name: Deploy API to DE
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.DE_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.DE_PROD_SECRET }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: dela/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: dela/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-dela-api --query taskDefinition > api-task-definition.json
+
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-dela-api
+        cluster: prod-dela
+        wait-for-service-stability: true
