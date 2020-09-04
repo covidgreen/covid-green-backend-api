@@ -1480,34 +1480,7 @@
 			"name": "PHA",
 			"item": [
 				{
-					"name": "login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"foo@baz\",\r\n    \"password\": \"Foobar123$\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{push}}/pha/login",
-							"host": [
-								"{{push}}"
-							],
-							"path": [
-								"pha",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "register",
+					"name": "Register cognito account",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1534,7 +1507,34 @@
 					"response": []
 				},
 				{
-					"name": "check",
+					"name": "Cognito login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"foo@baz\",\r\n    \"password\": \"Foobar123$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{push}}/pha/login",
+							"host": [
+								"{{push}}"
+							],
+							"path": [
+								"pha",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check cognito session",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1561,7 +1561,7 @@
 					"response": []
 				},
 				{
-					"name": "notify",
+					"name": "Notify positive with Cognito Token",
 					"request": {
 						"method": "POST",
 						"header": [],
