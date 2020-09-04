@@ -1480,7 +1480,7 @@
 			"name": "PHA",
 			"item": [
 				{
-					"name": "Register cognito account",
+					"name": "Register Cognito account",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1534,7 +1534,7 @@
 					"response": []
 				},
 				{
-					"name": "Check cognito session",
+					"name": "Check Cognito session",
 					"request": {
 						"method": "POST",
 						"header": [],
