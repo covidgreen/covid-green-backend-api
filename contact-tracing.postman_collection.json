@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "41105b40-c4b4-4073-8b9e-e6a7fde47a4b",
+		"_postman_id": "9d58b805-e71c-4881-aec7-c707ddeb4c30",
 		"name": "Contact Tracing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "da084aab-2b88-4410-ae8d-de5d22ccd460",
+								"id": "7ba73537-7c2f-4d8b-b209-4b0f579d0ca5",
 								"exec": [
 									"pm.test('Status code is 200', () => {\r",
 									"  pm.response.to.have.status(200)\r",
@@ -45,7 +45,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a470db86-0114-4782-829c-9f887da850e2",
+								"id": "9c774e93-a590-47bf-9a78-d99a13282b14",
 								"exec": [
 									"pm.test('Status code is 200', () => {\r",
 									"  pm.response.to.have.status(200)\r",
@@ -82,7 +82,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ee369433-2ed0-4b4a-ac62-0db373146e25",
+								"id": "e5a67452-2268-4097-a92a-252cf1a165c4",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -137,7 +137,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "faf07154-2f90-4011-82b8-5b775d137322",
+								"id": "9a8f7616-6c2e-4c7d-ae28-5b1fb78f5747",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -216,7 +216,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2139d829-75d8-4e8b-81ff-be4adcce385b",
+						"id": "0253656c-c6ee-4ba1-986d-d8192a835619",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -226,7 +226,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "49bec672-8713-41a4-9ce7-aa1ca7009235",
+						"id": "81e52288-a6ad-40c9-84b6-5ae3822613de",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -245,7 +245,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1abf46b9-cfb5-43a3-9026-b6d45500452d",
+								"id": "72383640-f9c8-451a-96f1-5133b83a2415",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -313,7 +313,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "04f04527-d38e-411f-af14-bbdf7326d851",
+								"id": "0ff0cf49-9103-47d9-9582-ff8d52132772",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -365,7 +365,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8a83911b-843c-484b-9178-3918b1b47efd",
+								"id": "eeb65353-174e-4fbe-bf22-1daa3efe7b5d",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -415,7 +415,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d7d2276e-8edd-4a09-bd82-1c808d617dbd",
+								"id": "429234cb-1abe-4502-88e3-3248ba1a3adb",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -468,7 +468,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1e56910b-3e02-4787-aadf-a5b5c891d2eb",
+								"id": "f6801057-8660-4212-9f46-a9fb0fbf7852",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -708,7 +708,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "794026c3-6222-4b8d-b192-7caadd6a9cf8",
+								"id": "153c1520-3eb6-4593-9a5e-62107063fef3",
 								"exec": [
 									""
 								],
@@ -718,7 +718,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2e610de1-97cb-45f9-87bc-5b4f350e79bc",
+								"id": "adab11f0-2e2f-4d45-8237-287b03b427ae",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -764,7 +764,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e5fa2ef9-8150-415e-b33e-f7bb767a8703",
+								"id": "5ff32304-47e9-46ba-9249-6fac811dcb26",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -854,7 +854,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6300c666-a3e8-4ac8-a0e2-40f891613baf",
+								"id": "73ff2ec8-9a97-424a-8d3a-eca3d675255d",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -917,7 +917,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3c25e285-bbbd-490a-9fed-709048931dc6",
+								"id": "abb36b7a-9dfe-4137-96f5-eed0fae18ded",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -963,7 +963,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c0b4229c-77ae-42a0-bb4d-680628f09c59",
+								"id": "99dbbcc6-5c57-4643-8b2d-6aa5090e7655",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -1047,7 +1047,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "34738875-f45a-4339-82b9-978d3369e9a7",
+								"id": "9ac8aa97-413e-488e-8cca-507abf7e5494",
 								"exec": [
 									"const schema = {\r",
 									"  type: 'object',\r",
@@ -1119,7 +1119,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f827ab04-1c11-4af9-892d-246b67bfe6ca",
+								"id": "590e23c0-1747-4f11-a0ec-598dd2dd42e3",
 								"exec": [
 									"const schema = {\r",
 									"  type: 'object',\r",
@@ -1183,7 +1183,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fba58888-a84c-4494-a70a-7b7daed7cf06",
+								"id": "50a8a5a5-e73c-4ceb-af43-89e4efb111a6",
 								"exec": [
 									"pm.test('Status code is 200', () => {",
 									"    pm.response.to.have.status(200)",
@@ -1229,7 +1229,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "aff3711a-f0cb-4e98-a100-da17f643724b",
+								"id": "1a748a71-ca84-48a0-8ad1-38b65d4db0f7",
 								"exec": [
 									"const schema = {",
 									"  type: 'array',",
@@ -1295,7 +1295,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e54ca34a-5da2-47bc-9abe-4971011c2e99",
+								"id": "5b3eef68-c2b8-458a-be76-9930705bb67b",
 								"exec": [
 									""
 								],
@@ -1448,7 +1448,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9d88e8a7-89e8-4aa2-9781-76797263a962",
+								"id": "dc5eef95-86fb-4b6b-bddb-24bbf8a2a859",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -1477,7 +1477,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "pha",
+			"name": "PHA",
 			"item": [
 				{
 					"name": "login",
@@ -1494,15 +1494,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5001/pha/login",
-							"protocol": "http",
+							"raw": "{{push}}/pha/login",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{push}}"
 							],
-							"port": "5001",
 							"path": [
 								"pha",
 								"login"
@@ -1526,12 +1521,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5001/pha/register",
-							"protocol": "http",
+							"raw": "{{push}}/pha/register",
 							"host": [
-								"localhost"
+								"{{push}}"
 							],
-							"port": "5001",
 							"path": [
 								"pha",
 								"register"
@@ -1555,15 +1548,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5001/pha/check",
-							"protocol": "http",
+							"raw": "{{push}}/pha/check",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{push}}"
 							],
-							"port": "5001",
 							"path": [
 								"pha",
 								"check"
@@ -1587,15 +1575,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5001/pha/notify",
-							"protocol": "http",
+							"raw": "{{push}}/pha/notify",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{push}}"
 							],
-							"port": "5001",
 							"path": [
 								"pha",
 								"notify"
@@ -1603,6 +1586,28 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f839f9de-0388-46c0-a3a6-0042d35846cc",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "97a38c1e-e6eb-490c-86bc-8bc67296412b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -1622,7 +1627,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "1b2ec671-00b0-400e-a963-436a55cb32bc",
+				"id": "c6615255-57b9-43d6-8a3c-24f57b371644",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1632,7 +1637,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "5f2669fb-3618-4ece-9bec-bd4413f23a7d",
+				"id": "73ae9307-99bb-406f-9596-9800efabac23",
 				"type": "text/javascript",
 				"exec": [
 					""
