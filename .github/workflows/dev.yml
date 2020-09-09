@@ -6,8 +6,8 @@ on:
       - nearform
 
 jobs:
-  deploy-cti:
-    name: Deploy to CTI
+  deploy-nfcs:
+    name: Deploy to NFCS
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +22,8 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.CTI_DEV_KEY }}
-        aws-secret-access-key: ${{ secrets.CTI_DEV_SECRET }}
+        aws-access-key-id: ${{ secrets.NFCS_DEV_KEY }}
+        aws-secret-access-key: ${{ secrets.NFCS_DEV_SECRET }}
         aws-region: eu-west-1
 
     - name: Login to Amazon ECR
@@ -34,7 +34,7 @@ jobs:
       id: build-api-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: fight-together/api
+        ECR_REPOSITORY: nfcs/api
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -47,7 +47,7 @@ jobs:
       id: build-migrations-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: fight-together/migrations
+        ECR_REPOSITORY: nfcs/migrations
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -58,7 +58,7 @@ jobs:
 
     - name: Pull API service current task definition
       run: |
-        aws ecs describe-task-definition --task-definition dev-fight-together-api --query taskDefinition > api-task-definition.json
+        aws ecs describe-task-definition --task-definition dev-nfcs-api --query taskDefinition > api-task-definition.json
 
     - name: Update API container version in task definition
       id: api-task-def
@@ -80,6 +80,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
-        service: dev-fight-together-api
-        cluster: dev-fight-together
+        service: dev-nfcs-api
+        cluster: dev-nfcs
         wait-for-service-stability: true
