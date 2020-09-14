@@ -604,7 +604,7 @@ jobs:
 
     - name: Pull API service current task definition
       run: |
-        aws ecs describe-task-definition --task-definition prod-newers-api --query taskDefinition > api-task-definition.json
+        aws ecs describe-task-definition --task-definition prod-newjers-api --query taskDefinition > api-task-definition.json
 
     - name: Update API container version in task definition
       id: api-task-def
@@ -626,6 +626,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
-        service: prod-newers-api
+        service: prod-newjers-api
         cluster: prod-newjers
         wait-for-service-stability: true
