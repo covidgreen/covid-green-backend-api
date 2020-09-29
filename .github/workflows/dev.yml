@@ -83,3 +83,8 @@ jobs:
         service: dev-nfcs-api
         cluster: dev-nfcs
         wait-for-service-stability: true
+
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
