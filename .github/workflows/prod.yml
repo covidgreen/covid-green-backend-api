@@ -87,7 +87,7 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+        aws-cw-annotate prod-cti --title 'Deployment api.${{ github.sha }}'
 
   deploy-ni:
     name: Deploy to NI
@@ -170,7 +170,7 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+        aws-cw-annotate prod-ni --title 'Deployment api.${{ github.sha }}'
 
   deploy-gi:
     name: Deploy to GI
@@ -254,7 +254,7 @@ jobs:
       - name: Create deployment annotation in dashboard
         run: |
           npm i --g aws-cloudwatch-annotations
-          aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+          aws-cw-annotate prod-gct --title 'Deployment api.${{ github.sha }}'
 
   deploy-penn:
     name: Deploy to PA
@@ -337,7 +337,7 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'  
+        aws-cw-annotate prod-penn --title 'Deployment api.${{ github.sha }}'  
 
   deploy-scot:
     name: Deploy to SCOT
@@ -420,7 +420,7 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+        aws-cw-annotate prod-scot --title 'Deployment api.${{ github.sha }}'
 
   deploy-jers:
     name: Deploy API to JERS
@@ -503,7 +503,7 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+        aws-cw-annotate prod-jers --title 'Deployment api.${{ github.sha }}'
 
   deploy-dela:
     name: Deploy API to DE
@@ -586,7 +586,7 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+        aws-cw-annotate prod-dela --title 'Deployment api.${{ github.sha }}'
 
   deploy-newjers:
     name: Deploy API to NJ
@@ -669,4 +669,4 @@ jobs:
     - name: Create deployment annotation in dashboard
       run: |
         npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate dev-nfcs --title 'Deployment api.${{ github.sha }}'
+        aws-cw-annotate prod-newjers --title 'Deployment api.${{ github.sha }}'
