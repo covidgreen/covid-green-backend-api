@@ -84,6 +84,11 @@ jobs:
         cluster: prod-cti
         wait-for-service-stability: true
 
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-cti --title 'Deployment api.${{ github.sha }}'
+
   deploy-ni:
     name: Deploy to NI
     runs-on: ubuntu-latest
@@ -161,6 +166,11 @@ jobs:
         service: prod-ni-api
         cluster: prod-ni
         wait-for-service-stability: true
+        
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-ni --title 'Deployment api.${{ github.sha }}'
 
   deploy-gi:
     name: Deploy to GI
@@ -239,6 +249,12 @@ jobs:
           service: prod-gct-api
           cluster: prod-gct
           wait-for-service-stability: true
+      
+      
+      - name: Create deployment annotation in dashboard
+        run: |
+          npm i --g aws-cloudwatch-annotations
+          aws-cw-annotate prod-gct --title 'Deployment api.${{ github.sha }}'
 
   deploy-penn:
     name: Deploy to PA
@@ -318,6 +334,11 @@ jobs:
         cluster: prod-penn
         wait-for-service-stability: true
 
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-penn --title 'Deployment api.${{ github.sha }}'  
+
   deploy-scot:
     name: Deploy to SCOT
     runs-on: ubuntu-latest
@@ -395,6 +416,11 @@ jobs:
         service: prod-scot-api
         cluster: prod-scot
         wait-for-service-stability: true
+
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-scot --title 'Deployment api.${{ github.sha }}'
 
   deploy-jers:
     name: Deploy API to JERS
@@ -474,6 +500,11 @@ jobs:
         cluster: prod-jers
         wait-for-service-stability: true
 
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-jers --title 'Deployment api.${{ github.sha }}'
+
   deploy-dela:
     name: Deploy API to DE
     runs-on: ubuntu-latest
@@ -552,6 +583,11 @@ jobs:
         cluster: prod-dela
         wait-for-service-stability: true
 
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-dela --title 'Deployment api.${{ github.sha }}'
+
   deploy-newjers:
     name: Deploy API to NJ
     runs-on: ubuntu-latest
@@ -629,3 +665,8 @@ jobs:
         service: prod-newjers-api
         cluster: prod-newjers
         wait-for-service-stability: true
+
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-newjers --title 'Deployment api.${{ github.sha }}'
