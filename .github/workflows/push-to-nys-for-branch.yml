@@ -41,7 +41,7 @@ jobs:
       - run: npm run lint
 
   publish-nys:
-    if: github.repository_owner == 'project-vagabond'
+    if: github.repository_owner == 'covid-alert-ny'
     name: Publish Backend API for NYS
     runs-on: ubuntu-latest
     needs: [ run-tests, verify-lint ]
