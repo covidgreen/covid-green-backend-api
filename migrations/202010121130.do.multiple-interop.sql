@@ -1,0 +1,2 @@
+ALTER TABLE upload_batches ADD COLUMN IF NOT EXISTS server_id TEXT NULL;
+ALTER TABLE download_batches ADD COLUMN IF NOT EXISTS server_id TEXT NULL;
