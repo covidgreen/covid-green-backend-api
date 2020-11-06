@@ -1574,7 +1574,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"platform\": \"noticesTest\",\n    \"nonce\": \"{{noticesNonce}}\",\n    \"deviceVerificationPayload\": \"{{noticesToken}}\",\n    \"selfIsolationEndDate\": \"2020-11-06\"\n}",
+							"raw": "{\n    \"platform\": \"test\",\n    \"nonce\": \"{{noticesNonce}}\",\n    \"deviceVerificationPayload\": \"{{registerToken}}\",\n    \"selfIsolationEndDate\": \"2020-11-07\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
