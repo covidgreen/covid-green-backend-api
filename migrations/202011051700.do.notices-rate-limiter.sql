@@ -1,0 +1,2 @@
+ALTER TABLE registrations
+ADD COLUMN IF NOT EXISTS last_notice TIMESTAMPTZ NULL;

@@ -17,7 +17,7 @@ $> npm run create:env
 
 ### Running API Outside Docker
 
-You can run the API outside of Docker but the database still requires Docker. 
+You can run the API outside of Docker but the database still requires Docker.
 
 First we'll start and setup the database.
 ```bash
@@ -87,7 +87,7 @@ And again, at this point the API service is up and listening on port 5000. You c
 $> docker ps
 IMAGE                                     PORTS                    NAMES
 covid-green-backend-api_covid-green-api   0.0.0.0:5000->5000/tcp   covid-green-api
-postgres:10.4-alpine                      0.0.0.0:5432->5432/tcp   covid-green-db 
+postgres:10.4-alpine                      0.0.0.0:5432->5432/tcp   covid-green-db
 ```
 ​
 Editing files outside the container will cause `nodemon` to restart the service.
@@ -132,6 +132,7 @@ All the endpoints in this service use varied sets of configuration settings and 
 | `ENABLE_CALLBACK` | `enable_callback` | Boolean indicating whether feature is turned on |
 | `ENABLE_CHECK_IN` | `enable_check_in` | Boolean indicating whether feature is turned on |
 | `ENABLE_METRICS` | `enable_metrics` | Boolean indicating whether feature is turned on |
+| `ENABLE_NOTICES` | `enable_self_isolation_notices` | Boolean indicating whether feature is turned on |
 | `LOG_LEVEL` | `log_level` | Standard logging level setting |
 | `CORS_ORIGIN` | `cors_origin` | Boolean indicating something about CORS |
 | `DB_HOST` | `db_host` | Connection host for database (writing/reading) |
@@ -147,9 +148,11 @@ All the endpoints in this service use varied sets of configuration settings and 
 | `UPLOAD_TOKEN_LIFETIME_MINS` | `upload_token_lifetime_mins` | ?? |
 | `VERIFY_RATE_LIMIT_SECS` | `security_verify_rate_limit_secs` | ?? |
 | `CALLBACK_QUEUE_URL` | `callback_url` | ?? |
+| `NOTICES_QUEUE_URL` | `self_isolation_notices_url` | ?? |
 | `ASSETS_BUCKET` | `s3_assets_bucket` | ?? |
 | `CALLBACK_RATE_LIMIT_SECS` | `security_callback_rate_limit_secs` | # of seconds required before a user can request another callback |
 | `CALLBACK_RATE_LIMIT_REQUEST_COUNT` | `security_callback_rate_limit_request_count` | # of callback requests allowed before rate limit goes into effect |
+| `NOTICES_RATE_LIMIT_SECS` | `security_notices_rate_limit_secs` | # of seconds required before a user can request another notice unique key |
 
 #### Secret Settings
 
