@@ -1,3 +1,10 @@
+name: Deploy API to QA
+
+on:
+  push:
+    branches:
+      - scot-temp
+
   deploy-scot:
     name: Deploy API to SCOT
     runs-on: ubuntu-latest
