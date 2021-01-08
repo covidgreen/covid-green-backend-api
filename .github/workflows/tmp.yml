@@ -1,13 +1,5 @@
-name: Deploy API to PROD
-
-on:
-  push:
-    branches:
-      - scot-temp
-
-jobs:
   deploy-scot:
-    name: Deploy to SCOT
+    name: Deploy API to SCOT
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +14,8 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.SCOT_PROD_KEY }}
-        aws-secret-access-key: ${{ secrets.SCOT_PROD_SECRET }}
+        aws-access-key-id: ${{ secrets.SCOT_QA_KEY }}
+        aws-secret-access-key: ${{ secrets.SCOT_QA_SECRET }}
         aws-region: eu-west-2
 
     - name: Login to Amazon ECR
@@ -58,7 +50,7 @@ jobs:
 
     - name: Pull API service current task definition
       run: |
-        aws ecs describe-task-definition --task-definition prod-scot-api --query taskDefinition > api-task-definition.json
+        aws ecs describe-task-definition --task-definition qa-scot-api --query taskDefinition > api-task-definition.json
 
     - name: Update API container version in task definition
       id: api-task-def
@@ -80,11 +72,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
-        service: prod-scot-api
-        cluster: prod-scot
+        service: qa-scot-api
+        cluster: qa-scot
         wait-for-service-stability: true
-
-    - name: Create deployment annotation in dashboard
-      run: |
-        npm i --g aws-cloudwatch-annotations
-        aws-cw-annotate prod-scot --title 'Deployment api.${{ github.sha }}'
