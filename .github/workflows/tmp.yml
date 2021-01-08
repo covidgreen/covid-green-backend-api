@@ -5,6 +5,7 @@ on:
     branches:
       - scot-temp
 
+jobs:
   deploy-scot:
     name: Deploy API to SCOT
     runs-on: ubuntu-latest
