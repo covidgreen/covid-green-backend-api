@@ -1,0 +1,589 @@
+name: Deploy API to PROD
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  deploy-cti:
+    name: Deploy to CTI
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.CTI_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.CTI_PROD_SECRET }}
+        aws-region: eu-west-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: cti/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: cti/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-cti-api --query taskDefinition > api-task-definition.json
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-cti-api
+        cluster: prod-cti
+        wait-for-service-stability: true
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-cti --title 'Deployment api.${{ github.sha }}'
+  deploy-ni:
+    name: Deploy to NI
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.NI_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.NI_PROD_SECRET }}
+        aws-region: eu-west-2
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ni/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ni/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-ni-api --query taskDefinition > api-task-definition.json
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-ni-api
+        cluster: prod-ni
+        wait-for-service-stability: true
+          - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-ni --title 'Deployment api.${{ github.sha }}'
+  deploy-gi:
+    name: Deploy to GI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.13.1'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.GI_PROD_KEY }}
+          aws-secret-access-key: ${{ secrets.GI_PROD_SECRET }}
+          aws-region: eu-west-2
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push API image to Amazon ECR
+        id: build-api-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: gct/api
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+        id: build-migrations-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: gct/migrations
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Pull API service current task definition
+        run: |
+          aws ecs describe-task-definition --task-definition prod-gct-api --query taskDefinition > api-task-definition.json
+      - name: Update API container version in task definition
+        id: api-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: api-task-definition.json
+          container-name: api
+          image: ${{ steps.build-api-image.outputs.image }}
+      - name: Update MIGRATIONS container version in task definition
+        id: migrations-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: api-task-definition.json
+          container-name: migrations
+          image: ${{ steps.build-migrations-image.outputs.image }}
+      - name: Deploy API service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+          service: prod-gct-api
+          cluster: prod-gct
+          wait-for-service-stability: true
+               - name: Create deployment annotation in dashboard
+        run: |
+          npm i --g aws-cloudwatch-annotations
+          aws-cw-annotate prod-gct --title 'Deployment api.${{ github.sha }}'
+  deploy-penn:
+    name: Deploy to PA
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.PA_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.PA_PROD_SECRET }}
+        aws-region: us-east-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: penn/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: penn/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-penn-api --query taskDefinition > api-task-definition.json
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-penn-api
+        cluster: prod-penn
+        wait-for-service-stability: true
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-penn --title 'Deployment api.${{ github.sha }}'  
+
+#  deploy-scot:
+#    name: Deploy to SCOT
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@v1
+#
+#    - name: Setup Node
+#      uses: actions/setup-node@v1
+#      with:
+#        node-version: '12.13.1'
+#
+#    - name: Configure AWS credentials
+#      uses: aws-actions/configure-aws-credentials@v1
+#      with:
+#        aws-access-key-id: ${{ secrets.SCOT_PROD_KEY }}
+#        aws-secret-access-key: ${{ secrets.SCOT_PROD_SECRET }}
+#        aws-region: eu-west-2
+#
+#    - name: Login to Amazon ECR
+#      id: login-ecr
+#      uses: aws-actions/amazon-ecr-login@v1
+#
+#    - name: Build, tag, and push API image to Amazon ECR
+#      id: build-api-image
+#      env:
+#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#        ECR_REPOSITORY: scot/api
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+#        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+#        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+#
+#    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+#      id: build-migrations-image
+#      env:
+#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#        ECR_REPOSITORY: scot/migrations
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+#        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+#        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+#
+#    - name: Pull API service current task definition
+#      run: |
+#        aws ecs describe-task-definition --task-definition prod-scot-api --query taskDefinition > api-task-definition.json
+#
+#    - name: Update API container version in task definition
+#      id: api-task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: api-task-definition.json
+#        container-name: api
+#        image: ${{ steps.build-api-image.outputs.image }}
+#
+#    - name: Update MIGRATIONS container version in task definition
+#      id: migrations-task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: api-task-definition.json
+#        container-name: migrations
+#        image: ${{ steps.build-migrations-image.outputs.image }}
+#
+#    - name: Deploy API service
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+#        service: prod-scot-api
+#        cluster: prod-scot
+#        wait-for-service-stability: true
+#
+#    - name: Create deployment annotation in dashboard
+#      run: |
+#        npm i --g aws-cloudwatch-annotations
+#        aws-cw-annotate prod-scot --title 'Deployment api.${{ github.sha }}'
+
+  deploy-jers:
+    name: Deploy API to JERS
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.JERS_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.JERS_PROD_SECRET }}
+        aws-region: eu-west-2
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: jers/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: jers/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-jers-api --query taskDefinition > api-task-definition.json
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-jers-api
+        cluster: prod-jers
+        wait-for-service-stability: true
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-jers --title 'Deployment api.${{ github.sha }}'
+  deploy-dela:
+    name: Deploy API to DE
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.DE_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.DE_PROD_SECRET }}
+        aws-region: us-east-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: dela/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: dela/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-dela-api --query taskDefinition > api-task-definition.json
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-dela-api
+        cluster: prod-dela
+        wait-for-service-stability: true
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-dela --title 'Deployment api.${{ github.sha }}'
+  deploy-newjers:
+    name: Deploy API to NJ
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.NJ_PROD_KEY }}
+        aws-secret-access-key: ${{ secrets.NJ_PROD_SECRET }}
+        aws-region: us-east-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push API image to Amazon ECR
+      id: build-api-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: newjers/api
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+      id: build-migrations-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: newjers/migrations
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Pull API service current task definition
+      run: |
+        aws ecs describe-task-definition --task-definition prod-newjers-api --query taskDefinition > api-task-definition.json
+    - name: Update API container version in task definition
+      id: api-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: api
+        image: ${{ steps.build-api-image.outputs.image }}
+    - name: Update MIGRATIONS container version in task definition
+      id: migrations-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: api-task-definition.json
+        container-name: migrations
+        image: ${{ steps.build-migrations-image.outputs.image }}
+    - name: Deploy API service
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.migrations-task-def.outputs.task-definition }}
+        service: prod-newjers-api
+        cluster: prod-newjers
+        wait-for-service-stability: true
+    - name: Create deployment annotation in dashboard
+      run: |
+        npm i --g aws-cloudwatch-annotations
+        aws-cw-annotate prod-newjers --title 'Deployment api.${{ github.sha }}'
