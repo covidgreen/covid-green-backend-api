@@ -215,7 +215,7 @@ jobs:
           service: prod-gct-api
           cluster: prod-gct
           wait-for-service-stability: true
-               - name: Create deployment annotation in dashboard
+      - name: Create deployment annotation in dashboard
         run: |
           npm i --g aws-cloudwatch-annotations
           aws-cw-annotate prod-gct --title 'Deployment api.${{ github.sha }}'
