@@ -65,7 +65,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "faker": "^4.1.0",
     "jest": "^24.0.0",
-    "lint-staged": "^8.1.4",
+    "lint-staged": "^10.5.3",
     "pino-pretty": "^3.5.0",
     "prettier": "^1.19.1",
     "prettier-config-standard": "^1.0.1"
@@ -73,8 +73,7 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "prettier": "prettier-config-standard"
