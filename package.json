@@ -41,7 +41,7 @@
     "fastify-postgres": "^3.3.0",
     "fastify-swagger": "^3.5.0",
     "fluent-schema": "^0.10.0",
-    "http-errors": "^1.7.3",
+    "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
     "node-forge": "^0.9.1",
