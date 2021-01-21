@@ -1704,6 +1704,237 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Venues",
+			"item": [
+				{
+					"name": "Submit email address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "549b9d98-8e1c-479c-9163-f8164c502445",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailAddress\": \"{{testEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/email",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify email address",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailAddress\": \"{{testEmail}}\",\r\n    \"verificationCode\": \"285279\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/email",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create venue",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiverEmail\": \"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbEFkZHJlc3MiOiJzdWNjZXNzQHNpbXVsYXRvci5hbWF6b25zZXMuY29tIiwiaWF0IjoxNjAyNTk5MjM0LCJleHAiOjE2MDI1OTk4MzQsInN1YiI6ImVtYWlsQWRkcmVzcyJ9.CDgzZZvGsNstXX2o_SxsIcCgklNR6C-XTCY-U6oCQrjq2-wJrBUpcL__Kkp5zZz7L733g63L4RTfhFgSsHZa_w\",\r\n    \"receiverFirstName\": \"Test\",\r\n    \"receiverSurname\": \"Venue\",\r\n    \"venueType\": \"d86c1ea9-a2c2-42e6-a1eb-3277df636e39\",\r\n    \"venueName\": \"Test Venue\",\r\n    \"venueAddress\": \"Test Address\",\r\n    \"contactEmail\": \"success@simulator.amazonses.com\",\r\n    \"contactPhone\": \"+441234567890\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get venue types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/venues/types",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get risky venues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all venues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/venues",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flag venue as risky",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\",\n    \"start\": \"\",\n    \"end\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make venue non-risky",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update risky venue window",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\",\n    \"start\": \"\",\n    \"end\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						},
+						"description": "If either start or end aren't changing you don't need pass them in, the API will use whatever is already stored."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"auth": {
