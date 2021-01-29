@@ -38,7 +38,7 @@
     "fastify-formbody": "^5.0.0",
     "fastify-jwt": "^2.3.0",
     "fastify-plugin": "^3.0.0",
-    "fastify-postgres": "^3.3.0",
+    "fastify-postgres": "^3.4.0",
     "fastify-swagger": "^4.0.0",
     "fluent-schema": "^1.1.0",
     "http-errors": "^1.8.0",
