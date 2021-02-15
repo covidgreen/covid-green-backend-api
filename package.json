@@ -31,7 +31,7 @@
     "aws-sdk": "^2.842.0",
     "date-fns": "^2.17.0",
     "dotenv": "^8.2.0",
-    "env-schema": "^2.0.1",
+    "env-schema": "^2.1.0",
     "fastify": "^3.11.0",
     "fastify-autoload": "^3.4.2",
     "fastify-cors": "^5.2.0",
