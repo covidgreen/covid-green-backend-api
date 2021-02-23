@@ -13,7 +13,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Setup Node
-      uses: actions/setup-node@v2.1.4
+      uses: actions/setup-node@v2.1.5
       with:
         node-version: '12.13.1'
     - name: Configure AWS credentials
@@ -84,7 +84,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Setup Node
-      uses: actions/setup-node@v2.1.4
+      uses: actions/setup-node@v2.1.5
       with:
         node-version: '12.13.1'
     - name: Configure AWS credentials
@@ -155,7 +155,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Node
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: '12.13.1'
       - name: Configure AWS credentials
@@ -226,7 +226,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Setup Node
-      uses: actions/setup-node@v2.1.4
+      uses: actions/setup-node@v2.1.5
       with:
         node-version: '12.13.1'
     - name: Configure AWS credentials
@@ -300,7 +300,7 @@ jobs:
 #      uses: actions/checkout@v1
 #
 #    - name: Setup Node
-#      uses: actions/setup-node@v2.1.4
+#      uses: actions/setup-node@v2.1.5
 #      with:
 #        node-version: '12.13.1'
 #
@@ -381,7 +381,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Setup Node
-      uses: actions/setup-node@v2.1.4
+      uses: actions/setup-node@v2.1.5
       with:
         node-version: '12.13.1'
     - name: Configure AWS credentials
@@ -452,7 +452,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Setup Node
-      uses: actions/setup-node@v2.1.4
+      uses: actions/setup-node@v2.1.5
       with:
         node-version: '12.13.1'
     - name: Configure AWS credentials
@@ -523,7 +523,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Setup Node
-      uses: actions/setup-node@v2.1.4
+      uses: actions/setup-node@v2.1.5
       with:
         node-version: '12.13.1'
     - name: Configure AWS credentials
