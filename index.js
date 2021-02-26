@@ -3,7 +3,7 @@ const getConfig = require('./lib/config')
 const { getPostgratorInstance } = require('./lib/migrate')
 
 const main = async () => {
-  process.on('unhandledRejection', err => {
+  process.on('unhandledRejection', (err) => {
     console.error(err)
     process.exit(1)
   })
@@ -39,7 +39,7 @@ const main = async () => {
           server.log.info({ signal }, 'application closed')
           process.exit(0)
         })
-        .catch(err => {
+        .catch((err) => {
           server.log.error({ err }, 'Error closing the application')
           process.exit(1)
         })
