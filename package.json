@@ -39,7 +39,7 @@
     "fastify-jwt": "^2.3.0",
     "fastify-plugin": "^3.0.0",
     "fastify-postgres": "^3.5.0",
-    "fastify-swagger": "^4.3.2",
+    "fastify-swagger": "^4.3.3",
     "fluent-schema": "^1.1.0",
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
