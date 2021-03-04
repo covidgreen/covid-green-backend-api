@@ -43,6 +43,7 @@
     "fluent-schema": "^1.1.0",
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "mobile-detect": "^1.4.4",
     "node-fetch": "^2.6.1",
     "node-forge": "^0.10.0",
     "node-jose": "^2.0.0",
