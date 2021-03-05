@@ -1,4 +1,4 @@
-name: Publish API for NYS
+name: Publish Backend API for NYS
 
 on:
   push:
