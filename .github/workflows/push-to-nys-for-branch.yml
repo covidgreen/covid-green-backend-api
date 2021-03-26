@@ -1,0 +1,192 @@
+name: Publish API for NYS
+
+on:
+  push:
+    branches:
+      - add-nys-settings
+
+jobs:
+  run-tests:
+    name: Run All Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [ 12.x ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Running tests with node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run create:env
+      - run: npm run build --if-present
+      - run: npm test
+
+  verify-lint:
+    name: Enforce Linting Rules
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [ 12.x ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Running lint with node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run lint
+
+  publish-nys:
+    if: github.repository_owner == 'covid-alert-ny'
+    name: Publish Backend API for NYS
+    runs-on: ubuntu-latest
+    needs: [ run-tests, verify-lint ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+
+      - name: Bump version and push tag
+        id: get-next-tag
+        uses: anothrNick/github-tag-action@1.23.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+          DRY_RUN: true
+          TAG_CONTEXT: branch
+          RELEASE_BRANCHES: nys
+
+## DEV ####################################
+      - name: DEV Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: ${{ secrets.AWS_REGION_DEV }}
+
+      - name: DEV Login to Amazon ECR
+        id: login-ecr-dev
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: DEV Build, tag, and push API image to Amazon ECR
+        id: build-api-image-dev
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-dev.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_API_DEV }}
+          IMAGE_TAG: "${{ steps.get-next-tag.outputs.new_tag }}.${{ github.run_id }}-add-nys-settings"
+        run: |
+          docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: DEV Build, tag, and push MIGRATIONS image to Amazon ECR
+        id: build-migrations-image-dev
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-dev.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_DEV }}
+          IMAGE_TAG: "${{ steps.get-next-tag.outputs.new_tag }}.${{ github.run_id }}-add-nys-settings"
+        run: |
+          docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: DEV Logout of Amazon ECR
+        if: always()
+        run: docker logout ${{ steps.login-ecr-dev.outputs.registry }}
+
+## QA ####################################
+      - name: QA Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_QA }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_QA }}
+          aws-region: ${{ secrets.AWS_REGION_QA }}
+
+      - name: QA Login to Amazon ECR
+        id: login-ecr-qa
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: QA Build, tag, and push API image to Amazon ECR
+        id: build-api-image-qa
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_API_QA }}
+          IMAGE_TAG: "${{ steps.get-next-tag.outputs.new_tag }}-add-nys-settings"
+        run: |
+          docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+        id: build-migrations-image-qa
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-qa.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_QA }}
+          IMAGE_TAG: "${{ steps.get-next-tag.outputs.new_tag }}-add-nys-settings"
+        run: |
+          docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: QA Logout of Amazon ECR
+        if: always()
+        run: docker logout ${{ steps.login-ecr-qa.outputs.registry }}
+
+## PROD ####################################
+      - name: PROD Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+          aws-region: ${{ secrets.AWS_REGION_PROD }}
+
+      - name: PROD Login to Amazon ECR
+        id: login-ecr-prod
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: PROD Build, tag, and push API image to Amazon ECR
+        id: build-api-image-prod
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-prod.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_API_PROD }}
+          IMAGE_TAG: "${{ steps.get-next-tag.outputs.new_tag }}-add-nys-settings"
+        run: |
+          docker build -f ./Dockerfile-api -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Build, tag, and push MIGRATIONS image to Amazon ECR
+        id: build-migrations-image-prod
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-prod.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_MIGRATIONS_PROD }}
+          IMAGE_TAG: "${{ steps.get-next-tag.outputs.new_tag }}-add-nys-settings"
+        run: |
+          docker build -f ./Dockerfile-migrate -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: PROD Logout of Amazon ECR
+        if: always()
+        run: docker logout ${{ steps.login-ecr-prod.outputs.registry }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get-next-tag.outputs.new_tag }}
+          release_name: Release ${{ steps.get-next-tag.outputs.new_tag }}
+          body: |
+            ${{ steps.get-next-tag.outputs.new_tag }}
+          draft: false
+          prerelease: false
+
