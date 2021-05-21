@@ -1,10 +1,78 @@
 {
 	"info": {
-		"_postman_id": "d8828e04-1417-4ac5-8b0d-fadde7649f49",
+		"_postman_id": "41105b40-c4b4-4073-8b9e-e6a7fde47a4b",
 		"name": "Contact Tracing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Healthcheck",
+			"item": [
+				{
+					"name": "API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da084aab-2b88-4410-ae8d-de5d22ccd460",
+								"exec": [
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/healthcheck",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Push",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a470db86-0114-4782-829c-9f887da850e2",
+								"exec": [
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{push}}/healthcheck",
+							"host": [
+								"{{push}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
 		{
 			"name": "Registration",
 			"item": [
@@ -14,7 +82,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5edd8aaf-b3e2-4e2c-ac46-0321a94c6991",
+								"id": "ee369433-2ed0-4b4a-ac62-0db373146e25",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -69,7 +137,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9d63cc5-8e75-4fbe-b9d3-439d79044100",
+								"id": "faf07154-2f90-4011-82b8-5b775d137322",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -148,7 +216,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "1c43c0c6-860b-446a-8961-c59c04820936",
+						"id": "2139d829-75d8-4e8b-81ff-be4adcce385b",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -158,7 +226,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1a8b9f60-317f-43bc-a853-cef0a36b7f9f",
+						"id": "49bec672-8713-41a4-9ce7-aa1ca7009235",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -177,7 +245,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "50aca5d7-be6e-4150-ba50-1321adffd795",
+								"id": "1abf46b9-cfb5-43a3-9026-b6d45500452d",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -245,7 +313,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1ea98cd6-4c42-4d00-a65a-3aaf34c9f97d",
+								"id": "04f04527-d38e-411f-af14-bbdf7326d851",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -297,7 +365,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f489590-452c-4a6f-bc82-1a38a2b546f2",
+								"id": "8a83911b-843c-484b-9178-3918b1b47efd",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -347,7 +415,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27a2ee71-4a53-4736-a803-b38b6894d210",
+								"id": "d7d2276e-8edd-4a09-bd82-1c808d617dbd",
 								"exec": [
 									"const schema = {",
 									"    type: 'object',",
@@ -400,7 +468,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8503a00b-1bc6-438e-8a7a-4df1d7e7e37b",
+								"id": "1e56910b-3e02-4787-aadf-a5b5c891d2eb",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -640,7 +708,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f068035a-dbb7-42e6-b335-4a590d6a41bd",
+								"id": "794026c3-6222-4b8d-b192-7caadd6a9cf8",
 								"exec": [
 									""
 								],
@@ -650,7 +718,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "177539e5-8e2f-42bb-a95f-12f42d307b55",
+								"id": "2e610de1-97cb-45f9-87bc-5b4f350e79bc",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -688,7 +756,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Notify",
+			"name": "Publish keys (token)",
 			"item": [
 				{
 					"name": "Notify positive",
@@ -696,17 +764,29 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "22aaaab0-6978-473b-a343-5dec6d8cd434",
+								"id": "e5fa2ef9-8150-415e-b33e-f7bb767a8703",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
 									"  additionalProperties: false,",
 									"  required: [",
-									"    'code'",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp', 'smsSent'",
 									"  ],",
 									"  properties: {",
 									"    code: {",
 									"      type: 'string'",
+									"    },",
+									"    error: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAt: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAtTimestamp: {",
+									"      type: 'string'",
+									"    },",
+									"    smsSent: {",
+									"      type: 'boolean'",
 									"    }",
 									"  }",
 									"}",
@@ -720,6 +800,8 @@
 									"pm.test('Schema is valid', () => {",
 									"  pm.expect(tv4.validate(json, schema)).to.be.true",
 									"})",
+									"",
+									"pm.environment.set('code', json.code.toString())",
 									"",
 									"const control = CryptoJS.SHA512(json.code.toString().substr(0, Math.floor(json.code.length / 2))).toString(CryptoJS.enc.Hex)",
 									"const code = CryptoJS.SHA512(json.code.toString()).toString(CryptoJS.enc.Hex)",
@@ -744,20 +826,12 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "mobile",
-									"value": "{{mobile}}",
-									"type": "text"
-								},
-								{
-									"key": "onsetDate",
-									"value": "2020-01-01",
-									"type": "text"
-								}
-							],
+							"mode": "raw",
+							"raw": "{\r\n    \"onsetDate\": \"2020-01-01\",\r\n    \"testDate\": \"2020-01-01\",\r\n    \"jobId\": \"{{$randomUUID}}\"\r\n}",
 							"options": {
+								"raw": {
+									"language": "json"
+								},
 								"urlencoded": {}
 							}
 						},
@@ -773,20 +847,14 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Exposures",
-			"item": [
+				},
 				{
-					"name": "Verify hash",
+					"name": "Verify code",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "163cacd3-5702-4b1d-8063-1792dc79d76b",
+								"id": "6300c666-a3e8-4ac8-a0e2-40f891613baf",
 								"exec": [
 									"const schema = {",
 									"  type: 'object',",
@@ -844,12 +912,12 @@
 					"response": []
 				},
 				{
-					"name": "Upload exposures",
+					"name": "Upload keys",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "494d3072-bb45-421f-a0f5-35aae24959b0",
+								"id": "3c25e285-bbbd-490a-9fed-709048931dc6",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -864,7 +932,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"token\": \"{{uploadToken}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"exposures\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"wTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"kRFEb8LFabuOTvPgrKKrtA==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"iF6kj3C8ABl6z5DyBox2zg==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"EjDdRDheosP0S0n2p5dcKQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"tfPVyMVyFuRGe1JKHz+OnQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"nIVltjjVHMeBmoyYuZdo3A==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"NRpHXoD7Jllsh8hhCUZ+cw==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"/r+7nvSPM23ftP2NNneUjw==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"8tJt6iYdgl2Wh3MlHxMong==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"khS7zH7L7yWQNkg2WGpl7g==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
+							"raw": "{\n\t\"token\": \"{{uploadToken}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"exposures\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"zTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"aXx+Y+vsFxahG6BcRh5cRH==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -882,14 +950,286 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Publish keys (certificate)",
+			"item": [
+				{
+					"name": "Issue code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c0b4229c-77ae-42a0-bb4d-680628f09c59",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'code', 'error', 'expiresAt', 'expiresAtTimestamp', 'smsSent'",
+									"  ],",
+									"  properties: {",
+									"    code: {",
+									"      type: 'string'",
+									"    },",
+									"    error: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAt: {",
+									"      type: 'string'",
+									"    },",
+									"    expiresAtTimestamp: {",
+									"      type: 'string'",
+									"    },",
+									"    smsSent: {",
+									"      type: 'boolean'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('code', json.code.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pushToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"symptomDate\": \"2020-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								},
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{push}}/issue",
+							"host": [
+								"{{push}}"
+							],
+							"path": [
+								"issue"
+							]
+						}
+					},
+					"response": []
 				},
+				{
+					"name": "Exchange code for token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "34738875-f45a-4339-82b9-978d3369e9a7",
+								"exec": [
+									"const schema = {\r",
+									"  type: 'object',\r",
+									"  additionalProperties: false,\r",
+									"  required: [\r",
+									"    'testtype', 'symptomDate', 'token', 'error'\r",
+									"  ],\r",
+									"  properties: {\r",
+									"    testtype: {\r",
+									"      type: 'string',\r",
+									"      enum: ['confirmed', 'likely', 'negative']\r",
+									"    },\r",
+									"    symptomDate: {\r",
+									"      type: 'string',\r",
+									"      format: 'date'\r",
+									"    },\r",
+									"    token: {\r",
+									"      type: 'string'\r",
+									"    },\r",
+									"    error: {\r",
+									"      type: 'string'\r",
+									"    }\r",
+									"  }\r",
+									"}\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test('Schema is valid', () => {\r",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.environment.set('certificateToken', json.token.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"{{code}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/verify",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exchange token for certificate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f827ab04-1c11-4af9-892d-246b67bfe6ca",
+								"exec": [
+									"const schema = {\r",
+									"  type: 'object',\r",
+									"  additionalProperties: false,\r",
+									"  required: [\r",
+									"    'certificate', 'error'\r",
+									"  ],\r",
+									"  properties: {\r",
+									"    certificate: {\r",
+									"      type: 'string'\r",
+									"    },\r",
+									"    error: {\r",
+									"      type: 'string'\r",
+									"    }\r",
+									"  }\r",
+									"}\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test('Status code is 200', () => {\r",
+									"  pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test('Schema is valid', () => {\r",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.environment.set('certificate', json.certificate.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{certificateToken}}\",\r\n    \"ekeyhmac\": \"TSNqhYMKOYD+WqPdApJBX1+0n/c0C6cwV+sPYnv9aLQ=\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/certificate",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"certificate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish keys",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fba58888-a84c-4494-a70a-7b7daed7cf06",
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"hmackey\": \"blUierXcpJjgf/fRAR54pfInFPHPs4aWFB6vQ3B4gI+pp1MBMj4yPmJLyK5VlT09n3E/9Fh4stCiWbdmrb/B7SsmJ3x9vOupPuwcHFTAsGGRXEw0X7lG/Bz6SgzIKa3Bgbg7Jr5DSiIVciSuL15biPcW+LFxzkmiOBihZy8J6Fs=\",\n\t\"verificationPayload\": \"{{certificate}}\",\n\t\"appPackageName\": \"{{appPackageName}}\",\n\t\"platform\": \"test\",\n\t\"deviceVerificationPayload\": \"{{registerToken}}\",\n\t\"regions\": [\n\t\t\"IE\"\n\t],\n\t\"temporaryExposureKeys\": [\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"zTN+p+GtGfalW2VRJzB5BQ==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t},\n\t\t{\n\t\t\t\"transmissionRiskLevel\": 0,\n\t\t\t\"rollingStartNumber\": 2655169,\n\t\t\t\"keyData\": \"aXx+Y+vsFxahG6BcRh5cRH==\",\n\t\t\t\"rollingPeriod\": 144\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/exposures",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exposures"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Download keys",
+			"item": [
 				{
 					"name": "List exposures",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "27241370-7005-43c2-9e6f-c0d059d534f3",
+								"id": "aff3711a-f0cb-4e98-a100-da17f643724b",
 								"exec": [
 									"const schema = {",
 									"  type: 'array',",
@@ -955,7 +1295,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2b9bb4a6-73e2-4724-a39a-564a7de60eef",
+								"id": "e54ca34a-5da2-47bc-9abe-4971011c2e99",
 								"exec": [
 									""
 								],
@@ -998,7 +1338,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"attenuationDurations\": [0, 1, 2],\n\t\"closeContactDate\": 1591005554175,\n\t\"daysSinceLastExposure\": 1,\n\t\"matchedKeyCount\": 5,\n\t\"maxRiskScores\": 10,\n\t\"mobile\": \"{{mobile}}\"\n}",
+							"raw": "{\n\t\"closeContactDate\": 1591005554175,\n\t\"mobile\": \"{{mobile}}\",\n\t\"payload\": {\n\t\t\"matchedKeys\": 3,\n        \"attenuations\": \"5,10,15\",\n        \"maxRiskScore\": 74\n\t}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1071,7 +1411,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{push}}/metrics?startDate=2020-07-01&endDate=2020-07-30",
+							"raw": "{{push}}/metrics?startDate=2020-05-01&endDate=2020-08-31&summary=true",
 							"host": [
 								"{{push}}"
 							],
@@ -1081,11 +1421,15 @@
 							"query": [
 								{
 									"key": "startDate",
-									"value": "2020-07-01"
+									"value": "2020-05-01"
 								},
 								{
 									"key": "endDate",
-									"value": "2020-07-30"
+									"value": "2020-08-31"
+								},
+								{
+									"key": "summary",
+									"value": "true"
 								}
 							]
 						}
@@ -1104,7 +1448,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ccab87f3-5510-4e63-bf96-5e8856bdbc16",
+								"id": "9d88e8a7-89e8-4aa2-9781-76797263a962",
 								"exec": [
 									"pm.test('Status code is 204', () => {",
 									"    pm.response.to.have.status(204)",
@@ -1131,6 +1475,466 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Notices",
+			"item": [
+				{
+					"name": "Create notice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "60a14f30-e59d-4baf-826d-5b35696da198",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'nonce'",
+									"  ],",
+									"  properties: {",
+									"    nonce: {",
+									"      type: 'string'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('noticesNonce', json.nonce)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/notices/create",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"notices",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify notice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "987fa3ff-71d4-4baf-9fc8-97f57c7e665d",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'key'",
+									"  ],",
+									"  properties: {",
+									"    key: {",
+									"      type: 'string'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})",
+									"",
+									"pm.environment.set('noticeKey', json.key.toString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"platform\": \"test\",\n    \"nonce\": \"{{noticesNonce}}\",\n    \"deviceVerificationPayload\": \"{{registerToken}}\",\n    \"selfIsolationEndDate\": \"2020-11-07\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/notices/create",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"notices",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Notice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ceb36f39-3ff9-4fcd-ba6a-e17a6656876a",
+								"exec": [
+									"const schema = {",
+									"  type: 'object',",
+									"  additionalProperties: false,",
+									"  required: [",
+									"    'valid'",
+									"  ],",
+									"  properties: {",
+									"    valid: {",
+									"      type: 'boolean'",
+									"    }",
+									"  }",
+									"}",
+									"",
+									"const json = pm.response.json()",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"  pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Schema is valid', () => {",
+									"  pm.expect(tv4.validate(json, schema)).to.be.true",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{noticeKey}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/notices/validate",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"notices",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send notice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9557f568-2f37-413f-bb5b-949d07dd4960",
+								"exec": [
+									"pm.test('Status code is 204', () => {",
+									"  pm.response.to.have.status(204)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"{{noticeKey}}\",\n    \"senderFullName\": \"{{noticeFullName}}\",\n    \"senderEmail\": \"{{noticeSender}}\",\n    \"sendToAdmin\": false,\n    \"recipients\": [\"{{noticeRecipient}}\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/notices/send",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"notices",
+								"send"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Venues",
+			"item": [
+				{
+					"name": "Submit email address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "549b9d98-8e1c-479c-9163-f8164c502445",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailAddress\": \"{{testEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/email",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify email address",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailAddress\": \"{{testEmail}}\",\r\n    \"verificationCode\": \"285279\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/email",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create venue",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiverEmail\": \"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbEFkZHJlc3MiOiJzdWNjZXNzQHNpbXVsYXRvci5hbWF6b25zZXMuY29tIiwiaWF0IjoxNjAyNTk5MjM0LCJleHAiOjE2MDI1OTk4MzQsInN1YiI6ImVtYWlsQWRkcmVzcyJ9.CDgzZZvGsNstXX2o_SxsIcCgklNR6C-XTCY-U6oCQrjq2-wJrBUpcL__Kkp5zZz7L733g63L4RTfhFgSsHZa_w\",\r\n    \"receiverFirstName\": \"Test\",\r\n    \"receiverSurname\": \"Venue\",\r\n    \"venueType\": \"d86c1ea9-a2c2-42e6-a1eb-3277df636e39\",\r\n    \"venueName\": \"Test Venue\",\r\n    \"venueAddress\": \"Test Address\",\r\n    \"contactEmail\": \"success@simulator.amazonses.com\",\r\n    \"contactPhone\": \"+441234567890\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get venue types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/venues/types",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get risky venues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all venues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/venues",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flag venue as risky",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\",\n    \"start\": \"\",\n    \"end\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make venue non-risky",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update risky venue window",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\",\n    \"start\": \"\",\n    \"end\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/venues/risky",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"venues",
+								"risky"
+							]
+						},
+						"description": "If either start or end aren't changing you don't need pass them in, the API will use whatever is already stored."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"auth": {
@@ -1147,7 +1951,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "1c68404e-d546-4563-9399-025d31a30310",
+				"id": "1b2ec671-00b0-400e-a963-436a55cb32bc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1157,7 +1961,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "96023cca-231c-4d02-80af-9bbc86e480bf",
+				"id": "5f2669fb-3618-4ece-9bec-bd4413f23a7d",
 				"type": "text/javascript",
 				"exec": [
 					""

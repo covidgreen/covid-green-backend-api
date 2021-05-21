@@ -1,7 +1,7 @@
 FROM       node:12-alpine
 
 # Workdir
-WORKDIR    contact-tracing
+WORKDIR    covid-green
 
 # Copy and install production packages
 COPY       lib lib/
@@ -30,5 +30,4 @@ LABEL      org.opencontainers.image.source=${VCS_URL}
 LABEL      org.opencontainers.image.version=${VERSION}
 
 # Running port is configured through API_PORT env variable
-ENTRYPOINT ["npm"]
-CMD        ["start"]
+CMD        ["npm", "start"]
