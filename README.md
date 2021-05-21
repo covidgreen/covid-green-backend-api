@@ -189,12 +189,12 @@ All the endpoints in this service use varied sets of configuration settings and 
 
 ### Contributors
 
-* @dennisgove - Dennis Gove <dpgove@gmail.com>
+* @fiacc - Fiacc O'Brien Moran <fiacc.obrienmoran@nearform.com>
 
 ### Past Contributors
 
-* TBD
-* TBD
+* @dennisgove - Dennis Gove <dgove1@bloomberg.net>
+* @dharding - David J Harding <davidjasonharding@gmail.com>
 
 ## Hosted By
 
