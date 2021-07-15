@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@nearform/sql": "^1.8.0",
-    "aws-sdk": "^2.945.0",
+    "aws-sdk": "^2.946.0",
     "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
     "env-schema": "^3.1.0",
