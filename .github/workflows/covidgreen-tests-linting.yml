@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Running tests with node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.3.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
@@ -35,7 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Running lint with node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.3.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
@@ -45,7 +45,7 @@ jobs:
     needs: [run-tests, verify-lint]
     runs-on: ubuntu-latest
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.1.1
+      - uses: fastify/github-action-merge-dependabot@v2.2.0
         if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
