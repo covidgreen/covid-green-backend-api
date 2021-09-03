@@ -1,5 +1,5 @@
 {
-  "name": "exposure-notification-api",
+  "name": "covid-green-backend-api",
   "version": "1.0.0",
   "private": true,
   "description": "API service for exposure notification",

@@ -20,7 +20,7 @@ const main = async () => {
     console.error(
       `expected version ${expectedVersion}, but db is at version ${currentVersion}`
     )
-    process.exit(1)
+    // process.exit(1)
   }
 
   const server = require('fastify')(config.fastifyInit)
