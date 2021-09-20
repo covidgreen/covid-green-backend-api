@@ -67,7 +67,7 @@
     "jest": "^27.2.0",
     "lint-staged": "^11.1.2",
     "nodemon": "^2.0.12",
-    "pino-pretty": "^7.0.0",
+    "pino-pretty": "^7.0.1",
     "prettier": "^2.4.1",
     "prettier-config-standard": "^4.0.0"
   },
