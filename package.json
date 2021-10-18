@@ -36,7 +36,7 @@
     "fastify-autoload": "^3.9.0",
     "fastify-cors": "^6.0.2",
     "fastify-formbody": "^5.1.0",
-    "fastify-jwt": "^3.2.0",
+    "fastify-jwt": "^3.2.1",
     "fastify-plugin": "^3.0.0",
     "fastify-postgres": "^3.6.0",
     "fastify-swagger": "^4.12.4",
