@@ -198,7 +198,7 @@ All the endpoints in this service use varied sets of configuration settings and 
 
 ## Hosted By
 
-<a href="https://www.lfph.io"><img alttext="Linux Foundation Public Health Logo" src="https://raw.githubusercontent.com/lfph/artwork/master/lfph/stacked/color/lfph-stacked-color.svg" width="200"></a>
+<a href="https://www.lfph.io"><img alttext="Linux Foundation Public Health Logo" src="https://raw.githubusercontent.com/lfph/artwork/main/other/lfph/stacked/color/lfph-stacked-color.svg" width="200"></a>
 
 [Linux Foundation Public Health](https://www.lfph.io)
 
