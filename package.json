@@ -29,7 +29,7 @@
   "dependencies": {
     "@nearform/sql": "^1.9.0",
     "aws-sdk": "^2.1039.0",
-    "date-fns": "^2.26.0",
+    "date-fns": "^2.27.0",
     "dotenv": "^10.0.0",
     "env-schema": "^3.5.0",
     "fastify": "^3.24.1",
