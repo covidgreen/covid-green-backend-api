@@ -49,7 +49,7 @@
     "node-jose": "^2.0.0",
     "pg": "^8.7.1",
     "pg-range": "^1.1.1",
-    "postgrator": "^5.0.0",
+    "postgrator": "^4.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
