@@ -41,7 +41,7 @@
     "fastify-postgres": "^3.6.0",
     "fastify-swagger": "^4.13.0",
     "fluent-schema": "^1.1.0",
-    "http-errors": "^1.8.1",
+    "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
