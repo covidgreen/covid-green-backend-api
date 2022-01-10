@@ -45,7 +45,7 @@
     "jsonwebtoken": "^8.5.1",
     "mobile-detect": "^1.4.5",
     "node-fetch": "^2.6.1",
-    "node-forge": "^1.1.0",
+    "node-forge": "^1.2.0",
     "node-jose": "^2.0.0",
     "pg": "^8.7.1",
     "pg-range": "^1.1.1",
