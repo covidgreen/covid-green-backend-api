@@ -47,7 +47,7 @@
     "node-fetch": "^2.6.7",
     "node-forge": "^1.2.1",
     "node-jose": "^2.0.0",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "pg-range": "^1.1.1",
     "postgrator": "^5.0.0",
     "uuid": "^8.3.2"
