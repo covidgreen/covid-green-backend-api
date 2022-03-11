@@ -15,9 +15,9 @@ jobs:
       matrix:
         node-version: [ 16.x ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Running tests with node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
@@ -33,9 +33,9 @@ jobs:
       matrix:
         node-version: [ 16.x ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Running lint with node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
