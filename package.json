@@ -65,7 +65,7 @@
     "eslint-plugin-standard": "^5.0.0",
     "faker": "^5.5.3",
     "jest": "^27.5.1",
-    "lint-staged": "^12.3.5",
+    "lint-staged": "^12.3.6",
     "nodemon": "^2.0.15",
     "pino-pretty": "^7.5.3",
     "prettier": "^2.6.0",
