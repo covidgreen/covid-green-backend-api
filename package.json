@@ -32,7 +32,7 @@
     "date-fns": "^2.28.0",
     "dotenv": "^16.0.0",
     "env-schema": "^4.0.0",
-    "fastify": "^3.27.4",
+    "fastify": "^3.28.0",
     "fastify-autoload": "^3.11.0",
     "fastify-cors": "^6.0.3",
     "fastify-formbody": "^5.2.0",
