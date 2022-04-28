@@ -33,7 +33,7 @@
     "dotenv": "^16.0.0",
     "env-schema": "^4.0.0",
     "fastify": "^3.28.0",
-    "fastify-autoload": "^3.12.0",
+    "fastify-autoload": "^3.13.0",
     "fastify-cors": "^6.0.3",
     "fastify-formbody": "^5.2.0",
     "fastify-jwt": "^4.2.0",
