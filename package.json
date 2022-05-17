@@ -34,7 +34,7 @@
     "env-schema": "^4.0.0",
     "fastify": "^3.28.0",
     "fastify-autoload": "^3.13.0",
-    "fastify-cors": "^6.0.3",
+    "fastify-cors": "^6.1.0",
     "fastify-formbody": "^5.2.0",
     "fastify-jwt": "^4.2.0",
     "fastify-plugin": "^3.0.1",
